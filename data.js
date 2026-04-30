@@ -1,22 +1,36 @@
 // ============================================================
-// data.js — Expat Language Guide
-// ALL language content lives here. No logic, no rendering.
-// To add a language: copy any language block and translate.
-// To add words: add objects to the relevant category array.
-// To add a new category: add a key inside `categories: {}`.
-// Structure per language:
-//   name, flag, native, voiceCode, voiceGender, tip
-//   cultural: []
-//   categories: { 'Category Name': { cls, words: [{en,tr,rom}] } }
-//   sentences: [{en, tr, rom}]
-//   emergency: [{en, tr, rom}]
+//  data.js — Expat Language Guide
+//  All language content lives here. No logic. No UI.
+//
+//  STRUCTURE PER LANGUAGE:
+//    name, flag, native, voiceCode, voiceGender
+//    tip           — one-line note shown on language card
+//    cultural[]    — array of cultural tips
+//    categories{}  — word categories { cls, words[] }
+//    sentences[]   — array of useful phrases
+//    emergency[]   — array of emergency phrases
+//    pronunciation — null (Batch 1: add guides here)
+//    flows         — null (Batch 2: restaurant, taxi, hotel…)
+//    situations    — null (Batch 2: just landed, sick, dating…)
+//
+//  USAGE:
+//    <script src="data.js"></script>  ← load before app.js
+//    LANGS['th'].categories           → Thai word categories
+//    LANGS['fr'].sentences            → French sentences
+//    LANGS['ja'].emergency            → Japanese emergency phrases
+//
+//  TO ADD BATCH 1 CONTENT:
+//    Set pronunciation: { sections: [...] } per language
+//
+//  TO ADD BATCH 2 CONTENT:
+//    flows: { restaurant:[...], taxi:[...], hotel:[...] }
+//    situations: { sick:[...], dating:[...], landed:[...] }
 // ============================================================
 
 const LANGS = {
   th: {
     name: 'Thai', flag: '🇹🇭', native: 'ภาษาไทย',
     voiceCode: 'th-TH',
-    voiceGender: 'female',
     tip: 'Thai is tonal — the same syllable can have 5 different meanings depending on tone.',
     cultural: [
       'Always remove shoes before entering homes and temples',
@@ -27,63 +41,6 @@ const LANGS = {
       'Royal family references must always be respectful — this is law'
     ],
     categories: {
-      '👋 Greetings & Celebrations': {cls:'cat-greetings', words:[
-        {en:'Good morning',tr:'อรุณสวัสดิ์',rom:'Arun sawat'},
-        {en:'Good afternoon',tr:'สวัสดีตอนบ่าย',rom:'Sawatdi ton baai'},
-        {en:'Good evening',tr:'สวัสดีตอนเย็น',rom:'Sawatdi ton yen'},
-        {en:'Good night',tr:'ราตรีสวัสดิ์',rom:'Raatrii sawat'},
-        {en:'Welcome',tr:'ยินดีต้อนรับ',rom:'Yindii tônráp'},
-        {en:'Happy New Year',tr:'สวัสดีปีใหม่',rom:'Sawatdi pii mai'},
-        {en:'Happy Birthday',tr:'สุขสันต์วันเกิด',rom:'Sùksǎn wan koet'},
-        {en:'Merry Christmas',tr:'สุขสันต์วันคริสต์มาส',rom:'Sùksǎn wan Khristmaat'},
-        {en:'Happy Songkran',tr:'สุขสันต์วันสงกรานต์',rom:'Sùksǎn wan Songkraan'},
-        {en:'Congratulations',tr:'ขอแสดงความยินดี',rom:'Khǒo sadaeng khwaam yindii'},
-      ]},
-      '🧑‍🤝‍🧑 Pronouns': {cls:'cat-pronouns', words:[
-        {en:'I (female)',tr:'ฉัน',rom:'Chǎn'},
-        {en:'I (male)',tr:'ผม',rom:'Phǒm'},
-        {en:'You (polite)',tr:'คุณ',rom:'Khun'},
-        {en:'He',tr:'เขา',rom:'Khǎo'},
-        {en:'She',tr:'เธอ',rom:'Thoe'},
-        {en:'It',tr:'มัน',rom:'Man'},
-        {en:'We',tr:'เรา',rom:'Rao'},
-        {en:'They',tr:'พวกเขา',rom:'Phûak khǎo'},
-        {en:'My / Mine',tr:'ของฉัน',rom:'Khǒng chǎn'},
-        {en:'Your / Yours',tr:'ของคุณ',rom:'Khǒng khun'},
-      ]},
-      '❓ Question Words': {cls:'cat-questions', words:[
-        {en:'Who',tr:'ใคร',rom:'Khrai'},
-        {en:'What',tr:'อะไร',rom:'Arai'},
-        {en:'When',tr:'เมื่อไหร่',rom:'Mûea rài'},
-        {en:'Where',tr:'ที่ไหน',rom:'Thîi nǎi'},
-        {en:'Why',tr:'ทำไม',rom:'Thammai'},
-        {en:'How',tr:'อย่างไร',rom:'Yàang rai'},
-        {en:'How much',tr:'เท่าไหร่',rom:'Thâo rài'},
-        {en:'How many',tr:'กี่',rom:'Kîi'},
-        {en:'Which',tr:'อันไหน',rom:'An nǎi'},
-        {en:'Whose',tr:'ของใคร',rom:'Khǒng khrai'},
-      ]},
-      '🎩 Titles & Address': {cls:'cat-titles', words:[
-        {en:'Mr.',tr:'นาย',rom:'Naai'},
-        {en:'Mrs.',tr:'นาง',rom:'Naang'},
-        {en:'Miss',tr:'นางสาว',rom:'Naang sǎao'},
-        {en:'Doctor',tr:'คุณหมอ',rom:'Khun mǒr'},
-        {en:'Teacher',tr:'อาจารย์',rom:'Aajaan'},
-        {en:'Friend (close)',tr:'เพื่อน',rom:'Phûean'},
-        {en:'Elder (respectful)',tr:'พี่',rom:'Phîi'},
-        {en:'Younger person',tr:'น้อง',rom:'Nóong'},
-        {en:'Sir / Ma\'am',tr:'คุณ',rom:'Khun'},
-        {en:'Boss',tr:'เจ้านาย',rom:'Jâo naai'},
-      ]},
-      '🔢 Numbers 1–20': {cls:'cat-numbers20', words:[
-        {en:'1',tr:'หนึ่ง',rom:'Nùeng'},{en:'2',tr:'สอง',rom:'Sǒng'},{en:'3',tr:'สาม',rom:'Sǎam'},
-        {en:'4',tr:'สี่',rom:'Sìi'},{en:'5',tr:'ห้า',rom:'Hâa'},{en:'6',tr:'หก',rom:'Hòk'},
-        {en:'7',tr:'เจ็ด',rom:'Jèt'},{en:'8',tr:'แปด',rom:'Pàet'},{en:'9',tr:'เก้า',rom:'Kâo'},
-        {en:'10',tr:'สิบ',rom:'Sìp'},{en:'11',tr:'สิบเอ็ด',rom:'Sìp èt'},{en:'12',tr:'สิบสอง',rom:'Sìp sǒng'},
-        {en:'13',tr:'สิบสาม',rom:'Sìp sǎam'},{en:'14',tr:'สิบสี่',rom:'Sìp sìi'},{en:'15',tr:'สิบห้า',rom:'Sìp hâa'},
-        {en:'16',tr:'สิบหก',rom:'Sìp hòk'},{en:'17',tr:'สิบเจ็ด',rom:'Sìp jèt'},{en:'18',tr:'สิบแปด',rom:'Sìp pàet'},
-        {en:'19',tr:'สิบเก้า',rom:'Sìp kâo'},{en:'20',tr:'ยี่สิบ',rom:'Yîi sìp'},
-      ]},
       '🚨 Survival': {cls:'cat-survival', words:[
         {en:'Help',tr:'ช่วยด้วย',rom:'Chûay dûay'},
         {en:'Emergency',tr:'เหตุฉุกเฉิน',rom:'Hèt chùk choen'},
@@ -268,11 +225,14 @@ const LANGS = {
       {en:'Fire! Get out!',tr:'ไฟไหม้! ออกไป!',rom:'Fai mâi! Òk pai!'},
       {en:'I am in danger.',tr:'ฉันอยู่ในอันตราย',rom:'Chǎn yùu nai antaraai'},
     ]
+
+    pronunciation: null,  // Batch 1: add pronunciation guide
+    flows: null,          // Batch 2: conversation flows
+    situations: null,     // Batch 2: situational packs
   },
   fr: {
     name: 'French', flag: '🇫🇷', native: 'Français',
     voiceCode: 'fr-FR',
-    voiceGender: 'female',
     tip: 'French is spoken on 5 continents. Mastering it opens doors from Paris to Martinique to Senegal.',
     cultural: [
       'Greet with "Bonjour" before anything — skipping it is considered rude',
@@ -283,46 +243,6 @@ const LANGS = {
       'Sunday is family day — many businesses close'
     ],
     categories: {
-      '👋 Greetings & Celebrations': {cls:'cat-greetings', words:[
-        {en:'Good morning',tr:'Bonjour',rom:''},
-        {en:'Good afternoon',tr:'Bon après-midi',rom:''},
-        {en:'Good evening',tr:'Bonsoir',rom:''},
-        {en:'Good night',tr:'Bonne nuit',rom:''},
-        {en:'Welcome',tr:'Bienvenue',rom:''},
-        {en:'Happy New Year',tr:'Bonne année',rom:''},
-        {en:'Happy Birthday',tr:'Joyeux anniversaire',rom:''},
-        {en:'Merry Christmas',tr:'Joyeux Noël',rom:''},
-        {en:'Happy Easter',tr:'Joyeuses Pâques',rom:''},
-        {en:'Congratulations',tr:'Félicitations',rom:''},
-      ]},
-      '🧑‍🤝‍🧑 Pronouns': {cls:'cat-pronouns', words:[
-        {en:'I',tr:'Je',rom:''},{en:'You (informal)',tr:'Tu',rom:''},{en:'You (formal)',tr:'Vous',rom:''},
-        {en:'He',tr:'Il',rom:''},{en:'She',tr:'Elle',rom:''},{en:'It',tr:'Ça',rom:''},
-        {en:'We',tr:'Nous',rom:''},{en:'They (m)',tr:'Ils',rom:''},{en:'They (f)',tr:'Elles',rom:''},
-        {en:'My / Mine',tr:'Mon / Ma / Mes',rom:''},
-      ]},
-      '❓ Question Words': {cls:'cat-questions', words:[
-        {en:'Who',tr:'Qui',rom:''},{en:'What',tr:'Quoi / Que',rom:''},{en:'When',tr:'Quand',rom:''},
-        {en:'Where',tr:'Où',rom:''},{en:'Why',tr:'Pourquoi',rom:''},{en:'How',tr:'Comment',rom:''},
-        {en:'How much',tr:'Combien',rom:''},{en:'How many',tr:'Combien de',rom:''},
-        {en:'Which',tr:'Quel / Quelle',rom:''},{en:'Whose',tr:'À qui',rom:''},
-      ]},
-      '🎩 Titles & Address': {cls:'cat-titles', words:[
-        {en:'Mr.',tr:'Monsieur',rom:''},{en:'Mrs.',tr:'Madame',rom:''},{en:'Miss',tr:'Mademoiselle',rom:''},
-        {en:'Doctor',tr:'Docteur',rom:''},{en:'Professor',tr:'Professeur',rom:''},
-        {en:'Friend',tr:'Ami(e)',rom:''},{en:'Sir',tr:'Monsieur',rom:''},
-        {en:'Ma\'am',tr:'Madame',rom:''},{en:'Boss',tr:'Patron(ne)',rom:''},
-        {en:'Colleague',tr:'Collègue',rom:''},
-      ]},
-      '🔢 Numbers 1–20': {cls:'cat-numbers20', words:[
-        {en:'1',tr:'Un',rom:''},{en:'2',tr:'Deux',rom:''},{en:'3',tr:'Trois',rom:''},
-        {en:'4',tr:'Quatre',rom:''},{en:'5',tr:'Cinq',rom:''},{en:'6',tr:'Six',rom:''},
-        {en:'7',tr:'Sept',rom:''},{en:'8',tr:'Huit',rom:''},{en:'9',tr:'Neuf',rom:''},
-        {en:'10',tr:'Dix',rom:''},{en:'11',tr:'Onze',rom:''},{en:'12',tr:'Douze',rom:''},
-        {en:'13',tr:'Treize',rom:''},{en:'14',tr:'Quatorze',rom:''},{en:'15',tr:'Quinze',rom:''},
-        {en:'16',tr:'Seize',rom:''},{en:'17',tr:'Dix-sept',rom:''},{en:'18',tr:'Dix-huit',rom:''},
-        {en:'19',tr:'Dix-neuf',rom:''},{en:'20',tr:'Vingt',rom:''},
-      ]},
       '🚨 Survival': {cls:'cat-survival', words:[
         {en:'Help',tr:'Au secours',rom:''},
         {en:'Emergency',tr:'Urgence',rom:''},
@@ -453,11 +373,14 @@ const LANGS = {
       {en:'Fire! Get out!',tr:'Feu! Sortez!',rom:''},
       {en:'I am in danger.',tr:'Je suis en danger.',rom:''},
     ]
+
+    pronunciation: null,  // Batch 1: add pronunciation guide
+    flows: null,          // Batch 2: conversation flows
+    situations: null,     // Batch 2: situational packs
   },
   es: {
     name: 'Spanish', flag: '🇪🇸', native: 'Español',
     voiceCode: 'es-ES',
-    voiceGender: 'female',
     tip: 'Spanish is the official language of 20 countries. Learning it unlocks Latin America, Spain, and more.',
     cultural: [
       'Greet with a handshake or a single cheek kiss depending on the country',
@@ -468,41 +391,6 @@ const LANGS = {
       'Saying "provecho" (enjoy your meal) to strangers eating is polite'
     ],
     categories: {
-      '👋 Greetings & Celebrations': {cls:'cat-greetings', words:[
-        {en:'Good morning',tr:'Buenos días',rom:''},{en:'Good afternoon',tr:'Buenas tardes',rom:''},
-        {en:'Good evening',tr:'Buenas noches',rom:''},{en:'Good night',tr:'Buenas noches',rom:''},
-        {en:'Welcome',tr:'Bienvenido/a',rom:''},{en:'Happy New Year',tr:'Feliz Año Nuevo',rom:''},
-        {en:'Happy Birthday',tr:'Feliz cumpleaños',rom:''},{en:'Merry Christmas',tr:'Feliz Navidad',rom:''},
-        {en:'Happy Easter',tr:'Felices Pascuas',rom:''},{en:'Congratulations',tr:'Felicidades',rom:''},
-      ]},
-      '🧑‍🤝‍🧑 Pronouns': {cls:'cat-pronouns', words:[
-        {en:'I',tr:'Yo',rom:''},{en:'You (informal)',tr:'Tú',rom:''},{en:'You (formal)',tr:'Usted',rom:''},
-        {en:'He',tr:'Él',rom:''},{en:'She',tr:'Ella',rom:''},{en:'It',tr:'Eso',rom:''},
-        {en:'We',tr:'Nosotros',rom:''},{en:'They',tr:'Ellos/Ellas',rom:''},
-        {en:'You all',tr:'Vosotros / Ustedes',rom:''},{en:'My / Mine',tr:'Mi / Mío',rom:''},
-      ]},
-      '❓ Question Words': {cls:'cat-questions', words:[
-        {en:'Who',tr:'Quién',rom:''},{en:'What',tr:'Qué',rom:''},{en:'When',tr:'Cuándo',rom:''},
-        {en:'Where',tr:'Dónde',rom:''},{en:'Why',tr:'Por qué',rom:''},{en:'How',tr:'Cómo',rom:''},
-        {en:'How much',tr:'Cuánto',rom:''},{en:'How many',tr:'Cuántos',rom:''},
-        {en:'Which',tr:'Cuál',rom:''},{en:'Whose',tr:'De quién',rom:''},
-      ]},
-      '🎩 Titles & Address': {cls:'cat-titles', words:[
-        {en:'Mr.',tr:'Señor',rom:''},{en:'Mrs.',tr:'Señora',rom:''},{en:'Miss',tr:'Señorita',rom:''},
-        {en:'Doctor',tr:'Doctor/Doctora',rom:''},{en:'Professor',tr:'Profesor/a',rom:''},
-        {en:'Friend',tr:'Amigo/a',rom:''},{en:'Boss',tr:'Jefe/a',rom:''},
-        {en:'Sir',tr:'Señor',rom:''},{en:'Ma\'am',tr:'Señora',rom:''},
-        {en:'Colleague',tr:'Colega',rom:''},
-      ]},
-      '🔢 Numbers 1–20': {cls:'cat-numbers20', words:[
-        {en:'1',tr:'Uno',rom:''},{en:'2',tr:'Dos',rom:''},{en:'3',tr:'Tres',rom:''},
-        {en:'4',tr:'Cuatro',rom:''},{en:'5',tr:'Cinco',rom:''},{en:'6',tr:'Seis',rom:''},
-        {en:'7',tr:'Siete',rom:''},{en:'8',tr:'Ocho',rom:''},{en:'9',tr:'Nueve',rom:''},
-        {en:'10',tr:'Diez',rom:''},{en:'11',tr:'Once',rom:''},{en:'12',tr:'Doce',rom:''},
-        {en:'13',tr:'Trece',rom:''},{en:'14',tr:'Catorce',rom:''},{en:'15',tr:'Quince',rom:''},
-        {en:'16',tr:'Dieciséis',rom:''},{en:'17',tr:'Diecisiete',rom:''},{en:'18',tr:'Dieciocho',rom:''},
-        {en:'19',tr:'Diecinueve',rom:''},{en:'20',tr:'Veinte',rom:''},
-      ]},
       '🚨 Survival': {cls:'cat-survival', words:[
         {en:'Help',tr:'Ayuda',rom:''},{en:'Emergency',tr:'Emergencia',rom:''},{en:'Police',tr:'Policía',rom:''},
         {en:'Hospital',tr:'Hospital',rom:''},{en:'Doctor',tr:'Médico',rom:''},{en:'Pharmacy',tr:'Farmacia',rom:''},
@@ -621,47 +509,16 @@ const LANGS = {
       {en:'I need an ambulance now.',tr:'Necesito una ambulancia ahora.',rom:''},
       {en:'Fire! Get out!',tr:'¡Fuego! ¡Salgan!',rom:''},{en:'I am in danger.',tr:'Estoy en peligro.',rom:''},
     ]
+
+    pronunciation: null,  // Batch 1: add pronunciation guide
+    flows: null,          // Batch 2: conversation flows
+    situations: null,     // Batch 2: situational packs
   },
   nl: {
     name:'Dutch',flag:'🇳🇱',native:'Nederlands',voiceCode:'nl-NL',
-    voiceGender:'female',
     tip:'Dutch is closely related to English and German — many words will look familiar!',
     cultural:['Direct communication is valued — Dutch people say what they mean','Going Dutch (splitting bills equally) is common and expected','Cycling is a way of life — respect bike lanes','Punctuality is very important for both social and business meetings','Stroopwafels on top of a hot mug to warm them is a sacred ritual','Knock before entering any room, even at home'],
     categories:{
-      '👋 Greetings & Celebrations': {cls:'cat-greetings', words:[
-        {en:'Good morning',tr:'Goedemorgen',rom:''},{en:'Good afternoon',tr:'Goedemiddag',rom:''},{en:'Good evening',tr:'Goedenavond',rom:''},
-        {en:'Good night',tr:'Welterusten',rom:''},{en:'Welcome',tr:'Welkom',rom:''},{en:'Happy New Year',tr:'Gelukkig Nieuwjaar',rom:''},
-        {en:'Happy Birthday',tr:'Gefeliciteerd',rom:''},{en:'Merry Christmas',tr:'Prettig Kerstfeest',rom:''},
-        {en:'Happy Easter',tr:'Vrolijk Pasen',rom:''},{en:'Congratulations',tr:'Gefeliciteerd',rom:''},
-      ]},
-      '🧑‍🤝‍🧑 Pronouns': {cls:'cat-pronouns', words:[
-        {en:'I',tr:'Ik',rom:''},{en:'You (informal)',tr:'Jij/Je',rom:''},{en:'You (formal)',tr:'U',rom:''},
-        {en:'He',tr:'Hij',rom:''},{en:'She',tr:'Zij/Ze',rom:''},{en:'It',tr:'Het',rom:''},
-        {en:'We',tr:'Wij/We',rom:''},{en:'They',tr:'Zij/Ze',rom:''},{en:'You all',tr:'Jullie',rom:''},
-        {en:'My / Mine',tr:'Mijn',rom:''},
-      ]},
-      '❓ Question Words': {cls:'cat-questions', words:[
-        {en:'Who',tr:'Wie',rom:''},{en:'What',tr:'Wat',rom:''},{en:'When',tr:'Wanneer',rom:''},
-        {en:'Where',tr:'Waar',rom:''},{en:'Why',tr:'Waarom',rom:''},{en:'How',tr:'Hoe',rom:''},
-        {en:'How much',tr:'Hoeveel',rom:''},{en:'How many',tr:'Hoeveel',rom:''},
-        {en:'Which',tr:'Welk(e)',rom:''},{en:'Whose',tr:'Van wie',rom:''},
-      ]},
-      '🎩 Titles & Address': {cls:'cat-titles', words:[
-        {en:'Mr.',tr:'De heer',rom:''},{en:'Mrs.',tr:'Mevrouw',rom:''},{en:'Miss',tr:'Juffrouw',rom:''},
-        {en:'Doctor',tr:'Dokter',rom:''},{en:'Professor',tr:'Professor',rom:''},
-        {en:'Friend',tr:'Vriend',rom:''},{en:'Boss',tr:'Baas',rom:''},
-        {en:'Sir/Ma\'am',tr:'Meneer/Mevrouw',rom:''},{en:'Colleague',tr:'Collega',rom:''},
-        {en:'Neighbour',tr:'Buurman/Buurvrouw',rom:''},
-      ]},
-      '🔢 Numbers 1–20': {cls:'cat-numbers20', words:[
-        {en:'1',tr:'Één',rom:''},{en:'2',tr:'Twee',rom:''},{en:'3',tr:'Drie',rom:''},
-        {en:'4',tr:'Vier',rom:''},{en:'5',tr:'Vijf',rom:''},{en:'6',tr:'Zes',rom:''},
-        {en:'7',tr:'Zeven',rom:''},{en:'8',tr:'Acht',rom:''},{en:'9',tr:'Negen',rom:''},
-        {en:'10',tr:'Tien',rom:''},{en:'11',tr:'Elf',rom:''},{en:'12',tr:'Twaalf',rom:''},
-        {en:'13',tr:'Dertien',rom:''},{en:'14',tr:'Veertien',rom:''},{en:'15',tr:'Vijftien',rom:''},
-        {en:'16',tr:'Zestien',rom:''},{en:'17',tr:'Zeventien',rom:''},{en:'18',tr:'Achttien',rom:''},
-        {en:'19',tr:'Negentien',rom:''},{en:'20',tr:'Twintig',rom:''},
-      ]},
       '🚨 Survival':{cls:'cat-survival',words:[{en:'Help',tr:'Help',rom:''},{en:'Emergency',tr:'Noodgeval',rom:''},{en:'Police',tr:'Politie',rom:''},{en:'Hospital',tr:'Ziekenhuis',rom:''},{en:'Doctor',tr:'Dokter',rom:''},{en:'Pharmacy',tr:'Apotheek',rom:''},{en:'Ambulance',tr:'Ambulance',rom:''},{en:'Fire',tr:'Brand',rom:''},{en:'Danger',tr:'Gevaar',rom:''},{en:'Safe',tr:'Veilig',rom:''},{en:'Passport',tr:'Paspoort',rom:''},{en:'Embassy',tr:'Ambassade',rom:''},{en:'Lost',tr:'Verdwaald',rom:''},{en:'Thief',tr:'Dief',rom:''},{en:'Accident',tr:'Ongeluk',rom:''}]},
       '🔢 Numbers & Time':{cls:'cat-numbers',words:[{en:'One',tr:'Één',rom:''},{en:'Two',tr:'Twee',rom:''},{en:'Three',tr:'Drie',rom:''},{en:'Four',tr:'Vier',rom:''},{en:'Five',tr:'Vijf',rom:''},{en:'Ten',tr:'Tien',rom:''},{en:'Hundred',tr:'Honderd',rom:''},{en:'Today',tr:'Vandaag',rom:''},{en:'Tomorrow',tr:'Morgen',rom:''},{en:'Yesterday',tr:'Gisteren',rom:''},{en:'Morning',tr:'Ochtend',rom:''},{en:'Evening',tr:'Avond',rom:''},{en:'Night',tr:'Nacht',rom:''},{en:'Hour',tr:'Uur',rom:''},{en:'Week',tr:'Week',rom:''}]},
       '🍜 Food & Drink':{cls:'cat-food',words:[{en:'Water',tr:'Water',rom:''},{en:'Food',tr:'Eten',rom:''},{en:'Rice',tr:'Rijst',rom:''},{en:'Spicy',tr:'Pittig',rom:''},{en:'Not spicy',tr:'Niet pittig',rom:''},{en:'Delicious',tr:'Heerlijk',rom:''},{en:'Vegetarian',tr:'Vegetarisch',rom:''},{en:'Allergy',tr:'Allergie',rom:''},{en:'Restaurant',tr:'Restaurant',rom:''},{en:'Market',tr:'Markt',rom:''},{en:'Coffee',tr:'Koffie',rom:''},{en:'Beer',tr:'Bier',rom:''},{en:'Chicken',tr:'Kip',rom:''},{en:'Pork',tr:'Varkensvlees',rom:''},{en:'Fish',tr:'Vis',rom:''}]},
@@ -675,52 +532,15 @@ const LANGS = {
       {en:'Where is the nearest hospital?',tr:'Waar is het dichtstbijzijnde ziekenhuis?',rom:''},{en:'I need a doctor.',tr:'Ik heb een dokter nodig.',rom:''},{en:'How much does this cost?',tr:'Hoeveel kost dit?',rom:''},{en:'I would like this, please.',tr:'Ik wil dit graag, alstublieft.',rom:''},{en:'Can you lower the price?',tr:'Kunt u de prijs verlagen?',rom:''},{en:'Where is the bathroom?',tr:'Waar is de badkamer?',rom:''},{en:'Please call the police.',tr:'Bel alstublieft de politie.',rom:''},{en:'I am lost.',tr:'Ik ben verdwaald.',rom:''},{en:'Please take me to this address.',tr:'Breng mij naar dit adres, alstublieft.',rom:''},{en:'I do not eat meat.',tr:'Ik eet geen vlees.',rom:''},{en:'Do you speak English?',tr:'Spreekt u Engels?',rom:''},{en:'I don\'t understand.',tr:'Ik begrijp het niet.',rom:''},{en:'Please speak slowly.',tr:'Spreek alstublieft langzaam.',rom:''},{en:'Can you write it down?',tr:'Kunt u het opschrijven?',rom:''},{en:'I am allergic to peanuts.',tr:'Ik ben allergisch voor pinda\'s.',rom:''},{en:'Where can I exchange money?',tr:'Waar kan ik geld wisselen?',rom:''},{en:'What is the WiFi password?',tr:'Wat is het WiFi wachtwoord?',rom:''},{en:'I would like to rent this apartment.',tr:'Ik zou dit appartement willen huren.',rom:''},{en:'Is this price negotiable?',tr:'Is deze prijs onderhandelbaar?',rom:''},{en:'I need an ambulance.',tr:'Ik heb een ambulance nodig.',rom:''},{en:'Where is the nearest ATM?',tr:'Waar is de dichtstbijzijnde pinautomaat?',rom:''},{en:'Can I get a receipt?',tr:'Kan ik een bon krijgen?',rom:''},{en:'What time does it open?',tr:'Hoe laat gaat het open?',rom:''},{en:'What time does it close?',tr:'Hoe laat gaat het dicht?',rom:''},{en:'Do you have a menu in English?',tr:'Heeft u een menu in het Engels?',rom:''},{en:'I would like the bill, please.',tr:'De rekening, alstublieft.',rom:''},{en:'Is there air conditioning?',tr:'Is er airconditioning?',rom:''},{en:'This is an emergency!',tr:'Dit is een noodgeval!',rom:''},{en:'Call an ambulance!',tr:'Bel een ambulance!',rom:''},{en:'I have a reservation.',tr:'Ik heb een reservering.',rom:''},{en:'Do you accept credit cards?',tr:'Accepteert u creditcards?',rom:''},{en:'Where is the train station?',tr:'Waar is het treinstation?',rom:''},{en:'I want to go to the airport.',tr:'Ik wil naar het vliegveld.',rom:''},{en:'How long will it take?',tr:'Hoe lang duurt het?',rom:''},{en:'What is your name?',tr:'Hoe heet u?',rom:''},{en:'My name is...',tr:'Ik heet...',rom:''},{en:'Nice to meet you.',tr:'Aangenaam kennis te maken.',rom:''},{en:'I am from America.',tr:'Ik kom uit Amerika.',rom:''},{en:'I live here now.',tr:'Ik woon hier nu.',rom:''},{en:'Can you help me?',tr:'Kunt u mij helpen?',rom:''},{en:'I need a translator.',tr:'Ik heb een tolk nodig.',rom:''},{en:'Is it safe here?',tr:'Is het hier veilig?',rom:''},{en:'I need help with my visa.',tr:'Ik heb hulp nodig met mijn visum.',rom:''},{en:'Where is the embassy?',tr:'Waar is de ambassade?',rom:''},{en:'I feel sick.',tr:'Ik voel me ziek.',rom:''},{en:'I have a headache.',tr:'Ik heb hoofdpijn.',rom:''},{en:'Do you have this in another size?',tr:'Heeft u dit in een andere maat?',rom:''},{en:'Thank you very much.',tr:'Hartelijk dank.',rom:''},{en:'You are very kind.',tr:'U bent erg vriendelijk.',rom:''},{en:'Excuse me.',tr:'Pardon.',rom:''}
     ],
     emergency:[{en:'Help me!',tr:'Help me!',rom:''},{en:'Call the police!',tr:'Bel de politie!',rom:''},{en:'I am having a heart attack.',tr:'Ik krijg een hartaanval.',rom:''},{en:'I am lost and need help.',tr:'Ik ben verdwaald en heb hulp nodig.',rom:''},{en:'Someone stole my bag.',tr:'Iemand heeft mijn tas gestolen.',rom:''},{en:'I need an ambulance now.',tr:'Ik heb nu een ambulance nodig.',rom:''},{en:'Fire! Get out!',tr:'Brand! Naar buiten!',rom:''},{en:'I am in danger.',tr:'Ik ben in gevaar.',rom:''}]
+    pronunciation: null,  // Batch 1: add pronunciation guide
+    flows: null,          // Batch 2: conversation flows
+    situations: null,     // Batch 2: situational packs
   },
   ko: {
     name:'Korean',flag:'🇰🇷',native:'한국어',voiceCode:'ko-KR',
-    voiceGender:'female',
     tip:'Korean uses Hangul, a phonetic alphabet invented in 1443. It can be learned in a few days!',
     cultural:['Bow slightly when greeting — deeper bow shows more respect','Remove shoes when entering homes','Elders eat and drink first — wait for the senior person','Use two hands when giving or receiving items','Pouring drinks for others (not yourself) is the norm','Age matters — it\'s common to ask someone\'s age early in conversation'],
     categories:{
-      '👋 Greetings & Celebrations': {cls:'cat-greetings', words:[
-        {en:'Good morning',tr:'안녕하세요',rom:'Annyeonghaseyo'},{en:'Good evening',tr:'안녕하세요',rom:'Annyeonghaseyo'},
-        {en:'Good night',tr:'잘 자요',rom:'Jal jayo'},{en:'Welcome',tr:'어서 오세요',rom:'Eoseo oseyo'},
-        {en:'Happy New Year',tr:'새해 복 많이 받으세요',rom:'Saehae bok mani badeuseyo'},
-        {en:'Happy Birthday',tr:'생일 축하해요',rom:'Saengil chukhahaeyo'},
-        {en:'Merry Christmas',tr:'메리 크리스마스',rom:'Meri Keuriseumaseu'},
-        {en:'Happy Chuseok',tr:'추석 잘 보내세요',rom:'Chuseok jal bonaeseyo'},
-        {en:'Congratulations',tr:'축하합니다',rom:'Chukahamnida'},
-        {en:'Happy Seollal',tr:'새해 복 많이 받으세요',rom:'Saehae bok mani badeuseyo'},
-      ]},
-      '🧑‍🤝‍🧑 Pronouns': {cls:'cat-pronouns', words:[
-        {en:'I',tr:'저',rom:'Jeo'},{en:'You',tr:'당신',rom:'Dangsin'},
-        {en:'He',tr:'그',rom:'Geu'},{en:'She',tr:'그녀',rom:'Geunyeo'},
-        {en:'We',tr:'우리',rom:'Uri'},{en:'They',tr:'그들',rom:'Geudeul'},
-        {en:'My',tr:'제',rom:'Je'},{en:'Your',tr:'당신의',rom:'Dangsinui'},
-        {en:'This',tr:'이것',rom:'Igeot'},{en:'That',tr:'저것',rom:'Jeogeot'},
-      ]},
-      '❓ Question Words': {cls:'cat-questions', words:[
-        {en:'Who',tr:'누구',rom:'Nugu'},{en:'What',tr:'무엇',rom:'Mueot'},{en:'When',tr:'언제',rom:'Eonje'},
-        {en:'Where',tr:'어디',rom:'Eodi'},{en:'Why',tr:'왜',rom:'Wae'},{en:'How',tr:'어떻게',rom:'Eotteoke'},
-        {en:'How much',tr:'얼마',rom:'Eolma'},{en:'How many',tr:'몇 개',rom:'Myeot gae'},
-        {en:'Which',tr:'어느',rom:'Eoneu'},{en:'Whose',tr:'누구의',rom:'Nuguui'},
-      ]},
-      '🎩 Titles & Address': {cls:'cat-titles', words:[
-        {en:'Mr./Ms.',tr:'씨',rom:'Ssi'},{en:'Teacher',tr:'선생님',rom:'Seonsaengnim'},
-        {en:'Doctor',tr:'의사 선생님',rom:'Uisa seonsaengnim'},{en:'Boss',tr:'사장님',rom:'Sajangnim'},
-        {en:'Friend',tr:'친구',rom:'Chingu'},{en:'Older (male)',tr:'형/오빠',rom:'Hyeong/Oppa'},
-        {en:'Older (female)',tr:'누나/언니',rom:'Nuna/Eonni'},{en:'Senior',tr:'선배',rom:'Seonbae'},
-        {en:'Junior',tr:'후배',rom:'Hubae'},{en:'Respected elder',tr:'어르신',rom:'Eoreusin'},
-      ]},
-      '🔢 Numbers 1–20': {cls:'cat-numbers20', words:[
-        {en:'1',tr:'일',rom:'Il'},{en:'2',tr:'이',rom:'I'},{en:'3',tr:'삼',rom:'Sam'},
-        {en:'4',tr:'사',rom:'Sa'},{en:'5',tr:'오',rom:'O'},{en:'6',tr:'육',rom:'Yuk'},
-        {en:'7',tr:'칠',rom:'Chil'},{en:'8',tr:'팔',rom:'Pal'},{en:'9',tr:'구',rom:'Gu'},
-        {en:'10',tr:'십',rom:'Sip'},{en:'11',tr:'십일',rom:'Sibil'},{en:'12',tr:'십이',rom:'Sibi'},
-        {en:'13',tr:'십삼',rom:'Sipsam'},{en:'14',tr:'십사',rom:'Sipsa'},{en:'15',tr:'십오',rom:'Sibo'},
-        {en:'16',tr:'십육',rom:'Simnyuk'},{en:'17',tr:'십칠',rom:'Sipchil'},{en:'18',tr:'십팔',rom:'Sippal'},
-        {en:'19',tr:'십구',rom:'Sipgu'},{en:'20',tr:'이십',rom:'Isip'},
-      ]},
       '🚨 Survival':{cls:'cat-survival',words:[{en:'Help',tr:'도와주세요',rom:'Dowajuseyo'},{en:'Emergency',tr:'비상사태',rom:'Bisangsatae'},{en:'Police',tr:'경찰',rom:'Gyeongchal'},{en:'Hospital',tr:'병원',rom:'Byeongwon'},{en:'Doctor',tr:'의사',rom:'Uisa'},{en:'Pharmacy',tr:'약국',rom:'Yakguk'},{en:'Ambulance',tr:'구급차',rom:'Gugeupcha'},{en:'Fire',tr:'불',rom:'Bul'},{en:'Danger',tr:'위험',rom:'Wiheom'},{en:'Safe',tr:'안전',rom:'Anjeon'},{en:'Passport',tr:'여권',rom:'Yeogwon'},{en:'Embassy',tr:'대사관',rom:'Daesagwan'},{en:'Lost',tr:'길을 잃었어요',rom:'Gireul ilh-eoss-eoyo'},{en:'Thief',tr:'도둑',rom:'Doduk'},{en:'Accident',tr:'사고',rom:'Sago'}]},
       '🔢 Numbers & Time':{cls:'cat-numbers',words:[{en:'One',tr:'일',rom:'Il'},{en:'Two',tr:'이',rom:'I'},{en:'Three',tr:'삼',rom:'Sam'},{en:'Four',tr:'사',rom:'Sa'},{en:'Five',tr:'오',rom:'O'},{en:'Ten',tr:'십',rom:'Sip'},{en:'Hundred',tr:'백',rom:'Baek'},{en:'Today',tr:'오늘',rom:'Oneul'},{en:'Tomorrow',tr:'내일',rom:'Naeil'},{en:'Yesterday',tr:'어제',rom:'Eoje'},{en:'Morning',tr:'아침',rom:'Achim'},{en:'Evening',tr:'저녁',rom:'Jeonyeok'},{en:'Night',tr:'밤',rom:'Bam'},{en:'Hour',tr:'시간',rom:'Sigan'},{en:'Week',tr:'주',rom:'Ju'}]},
       '🍜 Food & Drink':{cls:'cat-food',words:[{en:'Water',tr:'물',rom:'Mul'},{en:'Food',tr:'음식',rom:'Eumsik'},{en:'Rice',tr:'밥',rom:'Bap'},{en:'Spicy',tr:'매운',rom:'Maeun'},{en:'Not spicy',tr:'안 매운',rom:'An maeun'},{en:'Delicious',tr:'맛있어요',rom:'Masisseoyo'},{en:'Vegetarian',tr:'채식주의',rom:'Chaesikjuui'},{en:'Allergy',tr:'알레르기',rom:'Allereugi'},{en:'Restaurant',tr:'식당',rom:'Sikdang'},{en:'Market',tr:'시장',rom:'Sijang'},{en:'Coffee',tr:'커피',rom:'Keopi'},{en:'Beer',tr:'맥주',rom:'Maekju'},{en:'Chicken',tr:'닭고기',rom:'Dalgogi'},{en:'Pork',tr:'돼지고기',rom:'Dwaejigogi'},{en:'Fish',tr:'생선',rom:'Saengseon'}]},
@@ -734,49 +554,15 @@ const LANGS = {
       {en:'Where is the nearest hospital?',tr:'가장 가까운 병원이 어디 있어요?',rom:'Gajang gakkaun byeong-woni eodi isseoyo?'},{en:'I need a doctor.',tr:'의사가 필요해요.',rom:'Uisaga pil-yohaeyo.'},{en:'How much does this cost?',tr:'이게 얼마예요?',rom:'Ige eolmayeyo?'},{en:'I would like this, please.',tr:'이것 주세요.',rom:'Igeot juseyo.'},{en:'Can you lower the price?',tr:'가격을 낮춰 주실 수 있어요?',rom:'Gagyeogeul natchwo jusil su isseoyo?'},{en:'Where is the bathroom?',tr:'화장실이 어디 있어요?',rom:'Hwajangshiri eodi isseoyo?'},{en:'Please call the police.',tr:'경찰을 불러 주세요.',rom:'Gyeongchareul bulleo juseyo.'},{en:'I am lost.',tr:'길을 잃었어요.',rom:'Gireul ilh-eoss-eoyo.'},{en:'Please take me to this address.',tr:'이 주소로 데려다 주세요.',rom:'I jusoro deryeoda juseyo.'},{en:'I do not eat meat.',tr:'저는 고기를 안 먹어요.',rom:'Jeoneun gogireul an meog-eoyo.'},{en:'Do you speak English?',tr:'영어 하세요?',rom:'Yeong-eo haseyo?'},{en:'I don\'t understand.',tr:'모르겠어요.',rom:'Moreugeseoyo.'},{en:'Please speak slowly.',tr:'천천히 말해 주세요.',rom:'Cheoncheonhi malhae juseyo.'},{en:'Can you write it down?',tr:'써 주실 수 있어요?',rom:'Sseo jusil su isseoyo?'},{en:'I am allergic to peanuts.',tr:'저는 땅콩 알레르기가 있어요.',rom:'Jeoneun ttangkong allereugi-ga isseoyo.'},{en:'Where can I exchange money?',tr:'환전을 어디서 할 수 있어요?',rom:'Hwanjeon-eul eodiseo hal su isseoyo?'},{en:'What is the WiFi password?',tr:'와이파이 비밀번호가 뭐예요?',rom:'Waipai bimilbeonho-ga mwoyeyo?'},{en:'I would like to rent this apartment.',tr:'이 아파트를 빌리고 싶어요.',rom:'I apateureul billigo sipeoyo.'},{en:'Is this price negotiable?',tr:'가격 협상이 가능한가요?',rom:'Gagyeok hyeopsang-i ganeunghan-gayo?'},{en:'I need an ambulance.',tr:'구급차가 필요해요.',rom:'Gugeupcha-ga pil-yohaeyo.'},{en:'Where is the nearest ATM?',tr:'가장 가까운 현금기가 어디 있어요?',rom:'Gajang gakkaun hyeongeumgi-ga eodi isseoyo?'},{en:'Can I get a receipt?',tr:'영수증 받을 수 있어요?',rom:'Yeongsujeung badeul su isseoyo?'},{en:'What time does it open?',tr:'몇 시에 열어요?',rom:'Myeot si-e yeol-eoyo?'},{en:'What time does it close?',tr:'몇 시에 닫아요?',rom:'Myeot si-e dad-ayo?'},{en:'Do you have a menu in English?',tr:'영어 메뉴 있어요?',rom:'Yeong-eo menyu isseoyo?'},{en:'I would like the bill, please.',tr:'계산서 주세요.',rom:'Gyesanseo juseyo.'},{en:'Is there air conditioning?',tr:'에어컨 있어요?',rom:'Eeokon isseoyo?'},{en:'This is an emergency!',tr:'비상사태예요!',rom:'Bisangsataeyeyo!'},{en:'Call an ambulance!',tr:'구급차 불러주세요!',rom:'Gugeupcha bulleojuseyo!'},{en:'I have a reservation.',tr:'예약이 있어요.',rom:'Yeyak-i isseoyo.'},{en:'Do you accept credit cards?',tr:'신용카드 받아요?',rom:'Sin-yong-kadeu badayo?'},{en:'Where is the train station?',tr:'기차역이 어디 있어요?',rom:'Gichayeog-i eodi isseoyo?'},{en:'I want to go to the airport.',tr:'공항에 가고 싶어요.',rom:'Gonghang-e gago sipeoyo.'},{en:'How long will it take?',tr:'얼마나 걸려요?',rom:'Eolmana geollyeoyo?'},{en:'What is your name?',tr:'성함이 어떻게 되세요?',rom:'Seongham-i eotteoke doeseyo?'},{en:'My name is...',tr:'제 이름은...이에요.',rom:'Je ireumeun...ieyo.'},{en:'Nice to meet you.',tr:'만나서 반갑습니다.',rom:'Mannaseo bangabseumnida.'},{en:'I am from America.',tr:'저는 미국에서 왔어요.',rom:'Jeoneun migug-eseo wass-eoyo.'},{en:'I live here now.',tr:'저는 지금 여기 살아요.',rom:'Jeoneun jigeum yeogi sarayo.'},{en:'Can you help me?',tr:'도와주실 수 있어요?',rom:'Dowajusil su isseoyo?'},{en:'I need a translator.',tr:'통역사가 필요해요.',rom:'Tongyeoksa-ga pil-yohaeyo.'},{en:'Is it safe here?',tr:'여기 안전해요?',rom:'Yeogi anjeonhaeyo?'},{en:'I need help with my visa.',tr:'비자 관련 도움이 필요해요.',rom:'Bija gwanlyeon doum-i pil-yohaeyo.'},{en:'Where is the embassy?',tr:'대사관이 어디 있어요?',rom:'Daesagwan-i eodi isseoyo?'},{en:'I feel sick.',tr:'몸이 안 좋아요.',rom:'Mom-i an joayo.'},{en:'I have a headache.',tr:'두통이 있어요.',rom:'Dutong-i isseoyo.'},{en:'Do you have this in another size?',tr:'다른 사이즈 있어요?',rom:'Dareun sai-jeu isseoyo?'},{en:'Thank you very much.',tr:'정말 감사합니다.',rom:'Jeongmal gamsahamnida.'},{en:'You are very kind.',tr:'정말 친절하시네요.',rom:'Jeongmal chinjeolhasineyo.'},{en:'Excuse me.',tr:'실례합니다.',rom:'Sillyehamnida.'}
     ],
     emergency:[{en:'Help me!',tr:'도와주세요!',rom:'Dowajuseyo!'},{en:'Call the police!',tr:'경찰 불러주세요!',rom:'Gyeongchal bulleojuseyo!'},{en:'I am having a heart attack.',tr:'심장마비가 오고 있어요.',rom:'Simjangmabi-ga ogo isseoyo.'},{en:'I am lost and need help.',tr:'길을 잃어서 도움이 필요해요.',rom:'Gireul ilh-eoseo doum-i pil-yohaeyo.'},{en:'Someone stole my bag.',tr:'누가 제 가방을 훔쳤어요.',rom:'Nuga je gabang-eul humchyeosseoyo.'},{en:'I need an ambulance now.',tr:'지금 당장 구급차가 필요해요.',rom:'Jigeum dangjang gugeupcha-ga pil-yohaeyo.'},{en:'Fire! Get out!',tr:'불이야! 나가세요!',rom:'Bul-iya! Nagaseyo!'},{en:'I am in danger.',tr:'저 지금 위험해요.',rom:'Jeo jigeum wiheomhaeyo.'}]
+    pronunciation: null,  // Batch 1: add pronunciation guide
+    flows: null,          // Batch 2: conversation flows
+    situations: null,     // Batch 2: situational packs
   },
   vi: {
     name:'Vietnamese',flag:'🇻🇳',native:'Tiếng Việt',voiceCode:'vi-VN',
-    voiceGender:'female',
     tip:'Vietnamese is tonal with 6 tones. The diacritics on letters actually show you which tone to use!',
     cultural:['Greet elders with both hands and a slight bow','Avoid showing the soles of your feet — it\'s considered disrespectful','Red envelopes with money are given during Tết (New Year)','Bargaining at markets is expected and fun','Don\'t point your chopsticks at someone','Visiting someone? Bring fruit or tea as a gift'],
     categories:{
-      '👋 Greetings & Celebrations': {cls:'cat-greetings', words:[
-        {en:'Good morning',tr:'Chào buổi sáng',rom:'Chao buoi sang'},{en:'Good afternoon',tr:'Chào buổi chiều',rom:'Chao buoi chieu'},
-        {en:'Good evening',tr:'Chào buổi tối',rom:'Chao buoi toi'},{en:'Good night',tr:'Chúc ngủ ngon',rom:'Chuc ngu ngon'},
-        {en:'Welcome',tr:'Xin chào mừng',rom:'Sin chao mung'},{en:'Happy New Year (Tết)',tr:'Chúc Mừng Năm Mới',rom:'Chuc mung nam moi'},
-        {en:'Happy Birthday',tr:'Chúc mừng sinh nhật',rom:'Chuc mung sinh nhat'},{en:'Merry Christmas',tr:'Giáng Sinh Vui Vẻ',rom:'Giang sinh vui ve'},
-        {en:'Congratulations',tr:'Xin chúc mừng',rom:'Sin chuc mung'},{en:'Happy Mid-Autumn',tr:'Chúc Tết Trung Thu',rom:'Chuc tet trung thu'},
-      ]},
-      '🧑‍🤝‍🧑 Pronouns': {cls:'cat-pronouns', words:[
-        {en:'I (to elder)',tr:'Con/Cháu',rom:'Kon/Chau'},{en:'I (to peer)',tr:'Tôi',rom:'Toi'},
-        {en:'You (elder)',tr:'Ông/Bà',rom:'Ong/Ba'},{en:'You (peer)',tr:'Bạn',rom:'Ban'},
-        {en:'He/She',tr:'Anh/Chị',rom:'Anh/Chi'},{en:'We',tr:'Chúng tôi',rom:'Chung toi'},
-        {en:'They',tr:'Họ',rom:'Ho'},{en:'My',tr:'Của tôi',rom:'Cua toi'},
-        {en:'This',tr:'Cái này',rom:'Kai nay'},{en:'That',tr:'Cái kia',rom:'Kai kia'},
-      ]},
-      '❓ Question Words': {cls:'cat-questions', words:[
-        {en:'Who',tr:'Ai',rom:'Ai'},{en:'What',tr:'Gì',rom:'Gi'},{en:'When',tr:'Khi nào',rom:'Khi nao'},
-        {en:'Where',tr:'Ở đâu',rom:'O dau'},{en:'Why',tr:'Tại sao',rom:'Tai sao'},{en:'How',tr:'Như thế nào',rom:'Nhu the nao'},
-        {en:'How much',tr:'Bao nhiêu',rom:'Bao nhieu'},{en:'How many',tr:'Bao nhiêu cái',rom:'Bao nhieu kai'},
-        {en:'Which',tr:'Cái nào',rom:'Kai nao'},{en:'Whose',tr:'Của ai',rom:'Cua ai'},
-      ]},
-      '🎩 Titles & Address': {cls:'cat-titles', words:[
-        {en:'Sir/Uncle',tr:'Chú',rom:'Chu'},{en:'Ma\'am/Aunt',tr:'Cô',rom:'Ko'},
-        {en:'Grandfather',tr:'Ông',rom:'Ong'},{en:'Grandmother',tr:'Bà',rom:'Ba'},
-        {en:'Older brother',tr:'Anh',rom:'Anh'},{en:'Older sister',tr:'Chị',rom:'Chi'},
-        {en:'Friend (peer)',tr:'Bạn',rom:'Ban'},{en:'Doctor',tr:'Bác sĩ',rom:'Bak si'},
-        {en:'Teacher',tr:'Thầy/Cô giáo',rom:'Thay/Ko giao'},{en:'Boss',tr:'Sếp',rom:'Sep'},
-      ]},
-      '🔢 Numbers 1–20': {cls:'cat-numbers20', words:[
-        {en:'1',tr:'Một',rom:'Mot'},{en:'2',tr:'Hai',rom:'Hai'},{en:'3',tr:'Ba',rom:'Ba'},
-        {en:'4',tr:'Bốn',rom:'Bon'},{en:'5',tr:'Năm',rom:'Nam'},{en:'6',tr:'Sáu',rom:'Sau'},
-        {en:'7',tr:'Bảy',rom:'Bay'},{en:'8',tr:'Tám',rom:'Tam'},{en:'9',tr:'Chín',rom:'Chin'},
-        {en:'10',tr:'Mười',rom:'Muoi'},{en:'11',tr:'Mười một',rom:'Muoi mot'},{en:'12',tr:'Mười hai',rom:'Muoi hai'},
-        {en:'13',tr:'Mười ba',rom:'Muoi ba'},{en:'14',tr:'Mười bốn',rom:'Muoi bon'},{en:'15',tr:'Mười lăm',rom:'Muoi lam'},
-        {en:'16',tr:'Mười sáu',rom:'Muoi sau'},{en:'17',tr:'Mười bảy',rom:'Muoi bay'},{en:'18',tr:'Mười tám',rom:'Muoi tam'},
-        {en:'19',tr:'Mười chín',rom:'Muoi chin'},{en:'20',tr:'Hai mươi',rom:'Hai muoi'},
-      ]},
       '🚨 Survival':{cls:'cat-survival',words:[{en:'Help',tr:'Cứu tôi với',rom:'Kuu toi voi'},{en:'Emergency',tr:'Khẩn cấp',rom:'Khahn cap'},{en:'Police',tr:'Cảnh sát',rom:'Kanh sat'},{en:'Hospital',tr:'Bệnh viện',rom:'Benh vien'},{en:'Doctor',tr:'Bác sĩ',rom:'Bak si'},{en:'Pharmacy',tr:'Hiệu thuốc',rom:'Hieu thuoc'},{en:'Ambulance',tr:'Xe cấp cứu',rom:'Se cap cuu'},{en:'Fire',tr:'Cháy',rom:'Chay'},{en:'Danger',tr:'Nguy hiểm',rom:'Nguy hiem'},{en:'Safe',tr:'An toàn',rom:'An toan'},{en:'Passport',tr:'Hộ chiếu',rom:'Ho chieu'},{en:'Embassy',tr:'Đại sứ quán',rom:'Dai su quan'},{en:'Lost',tr:'Lạc đường',rom:'Lac duong'},{en:'Thief',tr:'Kẻ trộm',rom:'Ke trom'},{en:'Accident',tr:'Tai nạn',rom:'Tai nan'}]},
       '🔢 Numbers & Time':{cls:'cat-numbers',words:[{en:'One',tr:'Một',rom:'Mot'},{en:'Two',tr:'Hai',rom:'Hai'},{en:'Three',tr:'Ba',rom:'Ba'},{en:'Four',tr:'Bốn',rom:'Bon'},{en:'Five',tr:'Năm',rom:'Nam'},{en:'Ten',tr:'Mười',rom:'Muoi'},{en:'Hundred',tr:'Trăm',rom:'Tram'},{en:'Today',tr:'Hôm nay',rom:'Hom nay'},{en:'Tomorrow',tr:'Ngày mai',rom:'Ngay mai'},{en:'Yesterday',tr:'Hôm qua',rom:'Hom qua'},{en:'Morning',tr:'Buổi sáng',rom:'Buoi sang'},{en:'Evening',tr:'Buổi tối',rom:'Buoi toi'},{en:'Night',tr:'Đêm',rom:'Dem'},{en:'Hour',tr:'Giờ',rom:'Gio'},{en:'Week',tr:'Tuần',rom:'Tuan'}]},
       '🍜 Food & Drink':{cls:'cat-food',words:[{en:'Water',tr:'Nước',rom:'Nuoc'},{en:'Food',tr:'Đồ ăn',rom:'Do an'},{en:'Rice',tr:'Cơm',rom:'Com'},{en:'Spicy',tr:'Cay',rom:'Kay'},{en:'Not spicy',tr:'Không cay',rom:'Khong kay'},{en:'Delicious',tr:'Ngon',rom:'Ngon'},{en:'Vegetarian',tr:'Ăn chay',rom:'An chay'},{en:'Allergy',tr:'Dị ứng',rom:'Di ung'},{en:'Restaurant',tr:'Nhà hàng',rom:'Nha hang'},{en:'Market',tr:'Chợ',rom:'Cho'},{en:'Coffee',tr:'Cà phê',rom:'Ca phe'},{en:'Beer',tr:'Bia',rom:'Bia'},{en:'Chicken',tr:'Gà',rom:'Ga'},{en:'Pork',tr:'Thịt lợn',rom:'Thit lon'},{en:'Fish',tr:'Cá',rom:'Ka'}]},
@@ -790,48 +576,15 @@ const LANGS = {
       {en:'Where is the nearest hospital?',tr:'Bệnh viện gần nhất ở đâu?',rom:'Benh vien gan nhat o dau?'},{en:'I need a doctor.',tr:'Tôi cần gặp bác sĩ.',rom:'Toi can gap bak si.'},{en:'How much does this cost?',tr:'Cái này giá bao nhiêu?',rom:'Kai nay gia bao nhieu?'},{en:'I would like this, please.',tr:'Cho tôi cái này.',rom:'Cho toi kai nay.'},{en:'Can you lower the price?',tr:'Bạn có thể giảm giá không?',rom:'Ban co the giam gia khong?'},{en:'Where is the bathroom?',tr:'Nhà vệ sinh ở đâu?',rom:'Nha ve sinh o dau?'},{en:'Please call the police.',tr:'Làm ơn gọi cảnh sát.',rom:'Lam on goi kanh sat.'},{en:'I am lost.',tr:'Tôi bị lạc đường.',rom:'Toi bi lac duong.'},{en:'Please take me to this address.',tr:'Làm ơn đưa tôi đến địa chỉ này.',rom:'Lam on dua toi den dia chi nay.'},{en:'I do not eat meat.',tr:'Tôi không ăn thịt.',rom:'Toi khong an thit.'},{en:'Do you speak English?',tr:'Bạn có nói tiếng Anh không?',rom:'Ban co noi tieng Anh khong?'},{en:'I don\'t understand.',tr:'Tôi không hiểu.',rom:'Toi khong hieu.'},{en:'Please speak slowly.',tr:'Làm ơn nói chậm lại.',rom:'Lam on noi cham lai.'},{en:'Can you write it down?',tr:'Bạn có thể viết ra không?',rom:'Ban co the viet ra khong?'},{en:'I am allergic to peanuts.',tr:'Tôi bị dị ứng với lạc.',rom:'Toi bi di ung voi lac.'},{en:'Where can I exchange money?',tr:'Tôi có thể đổi tiền ở đâu?',rom:'Toi co the doi tien o dau?'},{en:'What is the WiFi password?',tr:'Mật khẩu WiFi là gì?',rom:'Mat khau WiFi la gi?'},{en:'I would like to rent this apartment.',tr:'Tôi muốn thuê căn hộ này.',rom:'Toi muon thue can ho nay.'},{en:'Is this price negotiable?',tr:'Giá này có thể thương lượng không?',rom:'Gia nay co the thuong luong khong?'},{en:'I need an ambulance.',tr:'Tôi cần xe cấp cứu.',rom:'Toi can se cap cuu.'},{en:'Where is the nearest ATM?',tr:'Máy ATM gần nhất ở đâu?',rom:'May ATM gan nhat o dau?'},{en:'Can I get a receipt?',tr:'Tôi có thể lấy hóa đơn không?',rom:'Toi co the lay hoa don khong?'},{en:'What time does it open?',tr:'Mấy giờ mở cửa?',rom:'May gio mo cua?'},{en:'What time does it close?',tr:'Mấy giờ đóng cửa?',rom:'May gio dong cua?'},{en:'Do you have a menu in English?',tr:'Bạn có thực đơn bằng tiếng Anh không?',rom:'Ban co thuc don bang tieng Anh khong?'},{en:'I would like the bill, please.',tr:'Cho tôi hóa đơn.',rom:'Cho toi hoa don.'},{en:'Is there air conditioning?',tr:'Có máy lạnh không?',rom:'Co may lanh khong?'},{en:'This is an emergency!',tr:'Đây là tình huống khẩn cấp!',rom:'Day la tinh huong khan cap!'},{en:'Call an ambulance!',tr:'Gọi xe cấp cứu!',rom:'Goi se cap cuu!'},{en:'I have a reservation.',tr:'Tôi có đặt trước.',rom:'Toi co dat truoc.'},{en:'Do you accept credit cards?',tr:'Bạn có nhận thẻ tín dụng không?',rom:'Ban co nhan the tin dung khong?'},{en:'Where is the train station?',tr:'Ga xe lửa ở đâu?',rom:'Ga se lua o dau?'},{en:'I want to go to the airport.',tr:'Tôi muốn đến sân bay.',rom:'Toi muon den san bay.'},{en:'How long will it take?',tr:'Mất bao lâu?',rom:'Mat bao lau?'},{en:'What is your name?',tr:'Bạn tên là gì?',rom:'Ban ten la gi?'},{en:'My name is...',tr:'Tên tôi là...',rom:'Ten toi la...'},{en:'Nice to meet you.',tr:'Rất vui được gặp bạn.',rom:'Rat vui duoc gap ban.'},{en:'I am from America.',tr:'Tôi đến từ Mỹ.',rom:'Toi den tu My.'},{en:'I live here now.',tr:'Tôi đang sống ở đây.',rom:'Toi dang song o day.'},{en:'Can you help me?',tr:'Bạn có thể giúp tôi không?',rom:'Ban co the giup toi khong?'},{en:'I need a translator.',tr:'Tôi cần phiên dịch.',rom:'Toi can phien dich.'},{en:'Is it safe here?',tr:'Đây có an toàn không?',rom:'Day co an toan khong?'},{en:'I need help with my visa.',tr:'Tôi cần giúp đỡ về visa.',rom:'Toi can giup do ve visa.'},{en:'Where is the embassy?',tr:'Đại sứ quán ở đâu?',rom:'Dai su quan o dau?'},{en:'I feel sick.',tr:'Tôi cảm thấy không khỏe.',rom:'Toi cam thay khong khoe.'},{en:'I have a headache.',tr:'Tôi bị đau đầu.',rom:'Toi bi dau dau.'},{en:'Do you have this in another size?',tr:'Bạn có size khác không?',rom:'Ban co size khac khong?'},{en:'Thank you very much.',tr:'Cảm ơn rất nhiều.',rom:'Kam on rat nhieu.'},{en:'You are very kind.',tr:'Bạn thật tử tế.',rom:'Ban that tu te.'},{en:'Excuse me.',tr:'Xin lỗi.',rom:'Sin loi.'}
     ],
     emergency:[{en:'Help me!',tr:'Cứu tôi với!',rom:'Kuu toi voi!'},{en:'Call the police!',tr:'Gọi cảnh sát!',rom:'Goi kanh sat!'},{en:'I am having a heart attack.',tr:'Tôi đang bị đau tim.',rom:'Toi dang bi dau tim.'},{en:'I am lost and need help.',tr:'Tôi bị lạc và cần giúp đỡ.',rom:'Toi bi lac va can giup do.'},{en:'Someone stole my bag.',tr:'Có người trộm túi của tôi.',rom:'Co nguoi trom tui cua toi.'},{en:'I need an ambulance now.',tr:'Tôi cần xe cấp cứu ngay.',rom:'Toi can se cap cuu ngay.'},{en:'Fire! Get out!',tr:'Cháy! Chạy ra ngoài!',rom:'Chay! Chay ra ngoai!'},{en:'I am in danger.',tr:'Tôi đang gặp nguy hiểm.',rom:'Toi dang gap nguy hiem.'}]
+    pronunciation: null,  // Batch 1: add pronunciation guide
+    flows: null,          // Batch 2: conversation flows
+    situations: null,     // Batch 2: situational packs
   },
   id: {
     name:'Indonesian',flag:'🇮🇩',native:'Bahasa Indonesia',voiceCode:'id-ID',
-    voiceGender:'female',
     tip:'Indonesian (Bahasa) has no tones, no verb conjugations, and largely phonetic spelling. One of the easiest Asian languages for English speakers!',
     cultural:['Use your right hand for giving and receiving — the left is considered unclean','Dress modestly, especially outside of Bali tourist areas','Remove shoes before entering homes and mosques','Bargaining is normal and expected at markets','Indonesia is the world\'s largest Muslim-majority country — respect Ramadan fasting hours','Always greet with "Selamat" + time of day'],
     categories:{
-      '👋 Greetings & Celebrations': {cls:'cat-greetings', words:[
-        {en:'Good morning',tr:'Selamat pagi',rom:''},{en:'Good afternoon',tr:'Selamat siang',rom:''},
-        {en:'Good evening',tr:'Selamat malam',rom:''},{en:'Good night',tr:'Selamat tidur',rom:''},
-        {en:'Welcome',tr:'Selamat datang',rom:''},{en:'Happy New Year',tr:'Selamat Tahun Baru',rom:''},
-        {en:'Happy Birthday',tr:'Selamat ulang tahun',rom:''},{en:'Merry Christmas',tr:'Selamat Natal',rom:''},
-        {en:'Happy Eid',tr:'Selamat Hari Raya',rom:''},{en:'Congratulations',tr:'Selamat',rom:''},
-      ]},
-      '🧑‍🤝‍🧑 Pronouns': {cls:'cat-pronouns', words:[
-        {en:'I',tr:'Saya/Aku',rom:''},{en:'You (polite)',tr:'Anda',rom:''},{en:'You (casual)',tr:'Kamu',rom:''},
-        {en:'He/She',tr:'Dia',rom:''},{en:'We (excl.)',tr:'Kami',rom:''},{en:'We (incl.)',tr:'Kita',rom:''},
-        {en:'They',tr:'Mereka',rom:''},{en:'My',tr:'Saya punya',rom:''},
-        {en:'This',tr:'Ini',rom:''},{en:'That',tr:'Itu',rom:''},
-      ]},
-      '❓ Question Words': {cls:'cat-questions', words:[
-        {en:'Who',tr:'Siapa',rom:''},{en:'What',tr:'Apa',rom:''},{en:'When',tr:'Kapan',rom:''},
-        {en:'Where',tr:'Di mana',rom:''},{en:'Why',tr:'Kenapa',rom:''},{en:'How',tr:'Bagaimana',rom:''},
-        {en:'How much',tr:'Berapa',rom:''},{en:'How many',tr:'Berapa banyak',rom:''},
-        {en:'Which',tr:'Yang mana',rom:''},{en:'Whose',tr:'Punya siapa',rom:''},
-      ]},
-      '🎩 Titles & Address': {cls:'cat-titles', words:[
-        {en:'Mr.',tr:'Bapak/Pak',rom:''},{en:'Mrs./Ms.',tr:'Ibu/Bu',rom:''},
-        {en:'Doctor',tr:'Dokter',rom:''},{en:'Teacher',tr:'Guru/Pak Guru',rom:''},
-        {en:'Friend',tr:'Teman',rom:''},{en:'Boss',tr:'Bos',rom:''},
-        {en:'Sir (elder)',tr:'Bapak',rom:''},{en:'Ma\'am (elder)',tr:'Ibu',rom:''},
-        {en:'Brother/Sister',tr:'Mas/Mbak',rom:''},{en:'Young person',tr:'Adik',rom:''},
-      ]},
-      '🔢 Numbers 1–20': {cls:'cat-numbers20', words:[
-        {en:'1',tr:'Satu',rom:''},{en:'2',tr:'Dua',rom:''},{en:'3',tr:'Tiga',rom:''},
-        {en:'4',tr:'Empat',rom:''},{en:'5',tr:'Lima',rom:''},{en:'6',tr:'Enam',rom:''},
-        {en:'7',tr:'Tujuh',rom:''},{en:'8',tr:'Delapan',rom:''},{en:'9',tr:'Sembilan',rom:''},
-        {en:'10',tr:'Sepuluh',rom:''},{en:'11',tr:'Sebelas',rom:''},{en:'12',tr:'Dua belas',rom:''},
-        {en:'13',tr:'Tiga belas',rom:''},{en:'14',tr:'Empat belas',rom:''},{en:'15',tr:'Lima belas',rom:''},
-        {en:'16',tr:'Enam belas',rom:''},{en:'17',tr:'Tujuh belas',rom:''},{en:'18',tr:'Delapan belas',rom:''},
-        {en:'19',tr:'Sembilan belas',rom:''},{en:'20',tr:'Dua puluh',rom:''},
-      ]},
       '🚨 Survival':{cls:'cat-survival',words:[{en:'Help',tr:'Tolong',rom:''},{en:'Emergency',tr:'Darurat',rom:''},{en:'Police',tr:'Polisi',rom:''},{en:'Hospital',tr:'Rumah sakit',rom:''},{en:'Doctor',tr:'Dokter',rom:''},{en:'Pharmacy',tr:'Apotek',rom:''},{en:'Ambulance',tr:'Ambulans',rom:''},{en:'Fire',tr:'Kebakaran',rom:''},{en:'Danger',tr:'Bahaya',rom:''},{en:'Safe',tr:'Aman',rom:''},{en:'Passport',tr:'Paspor',rom:''},{en:'Embassy',tr:'Kedutaan',rom:''},{en:'Lost',tr:'Tersesat',rom:''},{en:'Thief',tr:'Maling',rom:''},{en:'Accident',tr:'Kecelakaan',rom:''}]},
       '🔢 Numbers & Time':{cls:'cat-numbers',words:[{en:'One',tr:'Satu',rom:''},{en:'Two',tr:'Dua',rom:''},{en:'Three',tr:'Tiga',rom:''},{en:'Four',tr:'Empat',rom:''},{en:'Five',tr:'Lima',rom:''},{en:'Ten',tr:'Sepuluh',rom:''},{en:'Hundred',tr:'Seratus',rom:''},{en:'Today',tr:'Hari ini',rom:''},{en:'Tomorrow',tr:'Besok',rom:''},{en:'Yesterday',tr:'Kemarin',rom:''},{en:'Morning',tr:'Pagi',rom:''},{en:'Evening',tr:'Sore',rom:''},{en:'Night',tr:'Malam',rom:''},{en:'Hour',tr:'Jam',rom:''},{en:'Week',tr:'Minggu',rom:''}]},
       '🍜 Food & Drink':{cls:'cat-food',words:[{en:'Water',tr:'Air',rom:''},{en:'Food',tr:'Makanan',rom:''},{en:'Rice',tr:'Nasi',rom:''},{en:'Spicy',tr:'Pedas',rom:''},{en:'Not spicy',tr:'Tidak pedas',rom:''},{en:'Delicious',tr:'Enak',rom:''},{en:'Vegetarian',tr:'Vegetarian',rom:''},{en:'Allergy',tr:'Alergi',rom:''},{en:'Restaurant',tr:'Restoran',rom:''},{en:'Market',tr:'Pasar',rom:''},{en:'Coffee',tr:'Kopi',rom:''},{en:'Beer',tr:'Bir',rom:''},{en:'Chicken',tr:'Ayam',rom:''},{en:'Pork',tr:'Babi',rom:''},{en:'Fish',tr:'Ikan',rom:''}]},
@@ -845,49 +598,15 @@ const LANGS = {
       {en:'Where is the nearest hospital?',tr:'Di mana rumah sakit terdekat?',rom:''},{en:'I need a doctor.',tr:'Saya butuh dokter.',rom:''},{en:'How much does this cost?',tr:'Berapa harganya?',rom:''},{en:'I would like this, please.',tr:'Saya mau ini.',rom:''},{en:'Can you lower the price?',tr:'Bisa kurangi harganya?',rom:''},{en:'Where is the bathroom?',tr:'Di mana kamar mandi?',rom:''},{en:'Please call the police.',tr:'Tolong panggil polisi.',rom:''},{en:'I am lost.',tr:'Saya tersesat.',rom:''},{en:'Please take me to this address.',tr:'Tolong antar saya ke alamat ini.',rom:''},{en:'I do not eat meat.',tr:'Saya tidak makan daging.',rom:''},{en:'Do you speak English?',tr:'Apakah Anda bisa berbahasa Inggris?',rom:''},{en:'I don\'t understand.',tr:'Saya tidak mengerti.',rom:''},{en:'Please speak slowly.',tr:'Tolong bicara pelan-pelan.',rom:''},{en:'Can you write it down?',tr:'Bisa tuliskan?',rom:''},{en:'I am allergic to peanuts.',tr:'Saya alergi kacang.',rom:''},{en:'Where can I exchange money?',tr:'Di mana saya bisa tukar uang?',rom:''},{en:'What is the WiFi password?',tr:'Apa password WiFi-nya?',rom:''},{en:'I would like to rent this apartment.',tr:'Saya ingin menyewa apartemen ini.',rom:''},{en:'Is this price negotiable?',tr:'Harganya bisa ditawar?',rom:''},{en:'I need an ambulance.',tr:'Saya butuh ambulans.',rom:''},{en:'Where is the nearest ATM?',tr:'Di mana ATM terdekat?',rom:''},{en:'Can I get a receipt?',tr:'Bisa minta kwitansi?',rom:''},{en:'What time does it open?',tr:'Jam berapa buka?',rom:''},{en:'What time does it close?',tr:'Jam berapa tutup?',rom:''},{en:'Do you have a menu in English?',tr:'Ada menu dalam bahasa Inggris?',rom:''},{en:'I would like the bill, please.',tr:'Minta tagihan.',rom:''},{en:'Is there air conditioning?',tr:'Ada AC-nya?',rom:''},{en:'This is an emergency!',tr:'Ini darurat!',rom:''},{en:'Call an ambulance!',tr:'Panggil ambulans!',rom:''},{en:'I have a reservation.',tr:'Saya punya reservasi.',rom:''},{en:'Do you accept credit cards?',tr:'Terima kartu kredit?',rom:''},{en:'Where is the train station?',tr:'Di mana stasiun kereta?',rom:''},{en:'I want to go to the airport.',tr:'Saya mau ke bandara.',rom:''},{en:'How long will it take?',tr:'Berapa lama?',rom:''},{en:'What is your name?',tr:'Siapa nama Anda?',rom:''},{en:'My name is...',tr:'Nama saya...',rom:''},{en:'Nice to meet you.',tr:'Senang bertemu dengan Anda.',rom:''},{en:'I am from America.',tr:'Saya dari Amerika.',rom:''},{en:'I live here now.',tr:'Saya tinggal di sini sekarang.',rom:''},{en:'Can you help me?',tr:'Bisa bantu saya?',rom:''},{en:'I need a translator.',tr:'Saya butuh penerjemah.',rom:''},{en:'Is it safe here?',tr:'Apakah di sini aman?',rom:''},{en:'I need help with my visa.',tr:'Saya butuh bantuan untuk visa saya.',rom:''},{en:'Where is the embassy?',tr:'Di mana kedutaan?',rom:''},{en:'I feel sick.',tr:'Saya merasa sakit.',rom:''},{en:'I have a headache.',tr:'Saya sakit kepala.',rom:''},{en:'Do you have this in another size?',tr:'Ada ukuran lain?',rom:''},{en:'Thank you very much.',tr:'Terima kasih banyak.',rom:''},{en:'You are very kind.',tr:'Anda sangat baik.',rom:''},{en:'Excuse me.',tr:'Permisi.',rom:''}
     ],
     emergency:[{en:'Help me!',tr:'Tolong saya!',rom:''},{en:'Call the police!',tr:'Panggil polisi!',rom:''},{en:'I am having a heart attack.',tr:'Saya sedang serangan jantung.',rom:''},{en:'I am lost and need help.',tr:'Saya tersesat dan butuh bantuan.',rom:''},{en:'Someone stole my bag.',tr:'Tas saya dicuri.',rom:''},{en:'I need an ambulance now.',tr:'Saya butuh ambulans sekarang.',rom:''},{en:'Fire! Get out!',tr:'Kebakaran! Keluar!',rom:''},{en:'I am in danger.',tr:'Saya dalam bahaya.',rom:''}]
+    pronunciation: null,  // Batch 1: add pronunciation guide
+    flows: null,          // Batch 2: conversation flows
+    situations: null,     // Batch 2: situational packs
   },
   ja: {
     name:'Japanese',flag:'🇯🇵',native:'日本語',voiceCode:'ja-JP',
-    voiceGender:'female',
     tip:'Japanese has 3 writing systems: Hiragana, Katakana, and Kanji. The phonetic systems (Hiragana/Katakana) can be learned in 2 weeks.',
     cultural:['Bow to greet — deeper bow = more respect','Never tip in restaurants, it can be considered rude','Remove shoes before entering homes','Queue patiently — cutting in line is a serious social offence','Speak quietly in public transport','Exchanging business cards (meishi) is a formal ritual — use both hands'],
     categories:{
-      '👋 Greetings & Celebrations': {cls:'cat-greetings', words:[
-        {en:'Good morning',tr:'おはようございます',rom:'Ohayou gozaimasu'},{en:'Good afternoon',tr:'こんにちは',rom:'Konnichiwa'},
-        {en:'Good evening',tr:'こんばんは',rom:'Konbanwa'},{en:'Good night',tr:'おやすみなさい',rom:'Oyasuminasai'},
-        {en:'Welcome',tr:'いらっしゃいませ',rom:'Irasshaimase'},{en:'Happy New Year',tr:'あけましておめでとう',rom:'Akemashite omedetou'},
-        {en:'Happy Birthday',tr:'お誕生日おめでとう',rom:'Otanjoubi omedetou'},{en:'Merry Christmas',tr:'メリークリスマス',rom:'Merii Kurisumasu'},
-        {en:'Congratulations',tr:'おめでとうございます',rom:'Omedetou gozaimasu'},{en:'Happy Obon',tr:'よいお盆を',rom:'Yoi obon wo'},
-      ]},
-      '🧑‍🤝‍🧑 Pronouns': {cls:'cat-pronouns', words:[
-        {en:'I (formal)',tr:'私',rom:'Watashi'},{en:'I (casual male)',tr:'僕',rom:'Boku'},
-        {en:'You',tr:'あなた',rom:'Anata'},{en:'He',tr:'彼',rom:'Kare'},
-        {en:'She',tr:'彼女',rom:'Kanojo'},{en:'We',tr:'私たち',rom:'Watashitachi'},
-        {en:'They',tr:'彼ら',rom:'Karera'},{en:'My',tr:'私の',rom:'Watashi no'},
-        {en:'This',tr:'これ',rom:'Kore'},{en:'That',tr:'それ',rom:'Sore'},
-      ]},
-      '❓ Question Words': {cls:'cat-questions', words:[
-        {en:'Who',tr:'だれ',rom:'Dare'},{en:'What',tr:'なに',rom:'Nani'},{en:'When',tr:'いつ',rom:'Itsu'},
-        {en:'Where',tr:'どこ',rom:'Doko'},{en:'Why',tr:'なぜ',rom:'Naze'},{en:'How',tr:'どうやって',rom:'Douyatte'},
-        {en:'How much',tr:'いくら',rom:'Ikura'},{en:'How many',tr:'いくつ',rom:'Ikutsu'},
-        {en:'Which',tr:'どれ',rom:'Dore'},{en:'Whose',tr:'だれの',rom:'Dare no'},
-      ]},
-      '🎩 Titles & Address': {cls:'cat-titles', words:[
-        {en:'Mr./Ms. (suffix)',tr:'〜さん',rom:'~San'},{en:'Respect (suffix)',tr:'〜様',rom:'~Sama'},
-        {en:'Doctor',tr:'先生',rom:'Sensei'},{en:'Teacher',tr:'先生',rom:'Sensei'},
-        {en:'Boss',tr:'上司',rom:'Joushi'},{en:'Friend',tr:'友達',rom:'Tomodachi'},
-        {en:'Junior (suffix)',tr:'〜くん',rom:'~Kun'},{en:'Senior',tr:'先輩',rom:'Senpai'},
-        {en:'Junior',tr:'後輩',rom:'Kouhai'},{en:'Elder',tr:'目上の人',rom:'Meue no hito'},
-      ]},
-      '🔢 Numbers 1–20': {cls:'cat-numbers20', words:[
-        {en:'1',tr:'一',rom:'Ichi'},{en:'2',tr:'二',rom:'Ni'},{en:'3',tr:'三',rom:'San'},
-        {en:'4',tr:'四',rom:'Yon'},{en:'5',tr:'五',rom:'Go'},{en:'6',tr:'六',rom:'Roku'},
-        {en:'7',tr:'七',rom:'Nana'},{en:'8',tr:'八',rom:'Hachi'},{en:'9',tr:'九',rom:'Kyuu'},
-        {en:'10',tr:'十',rom:'Juu'},{en:'11',tr:'十一',rom:'Juuichi'},{en:'12',tr:'十二',rom:'Juuni'},
-        {en:'13',tr:'十三',rom:'Juusan'},{en:'14',tr:'十四',rom:'Juushi'},{en:'15',tr:'十五',rom:'Juugo'},
-        {en:'16',tr:'十六',rom:'Juuroku'},{en:'17',tr:'十七',rom:'Juunana'},{en:'18',tr:'十八',rom:'Juuhachi'},
-        {en:'19',tr:'十九',rom:'Juukyuu'},{en:'20',tr:'二十',rom:'Nijuu'},
-      ]},
       '🚨 Survival':{cls:'cat-survival',words:[{en:'Help',tr:'助けて',rom:'Tasukete'},{en:'Emergency',tr:'緊急',rom:'Kinkyuu'},{en:'Police',tr:'警察',rom:'Keisatsu'},{en:'Hospital',tr:'病院',rom:'Byouin'},{en:'Doctor',tr:'医者',rom:'Isha'},{en:'Pharmacy',tr:'薬局',rom:'Yakkyoku'},{en:'Ambulance',tr:'救急車',rom:'Kyuukyuusha'},{en:'Fire',tr:'火事',rom:'Kaji'},{en:'Danger',tr:'危険',rom:'Kiken'},{en:'Safe',tr:'安全',rom:'Anzen'},{en:'Passport',tr:'パスポート',rom:'Pasupooto'},{en:'Embassy',tr:'大使館',rom:'Taishikan'},{en:'Lost',tr:'迷子',rom:'Maigo'},{en:'Thief',tr:'泥棒',rom:'Dorobou'},{en:'Accident',tr:'事故',rom:'Jiko'}]},
       '🔢 Numbers & Time':{cls:'cat-numbers',words:[{en:'One',tr:'一',rom:'Ichi'},{en:'Two',tr:'二',rom:'Ni'},{en:'Three',tr:'三',rom:'San'},{en:'Four',tr:'四',rom:'Shi/Yon'},{en:'Five',tr:'五',rom:'Go'},{en:'Ten',tr:'十',rom:'Juu'},{en:'Hundred',tr:'百',rom:'Hyaku'},{en:'Today',tr:'今日',rom:'Kyou'},{en:'Tomorrow',tr:'明日',rom:'Ashita'},{en:'Yesterday',tr:'昨日',rom:'Kinou'},{en:'Morning',tr:'朝',rom:'Asa'},{en:'Evening',tr:'夕方',rom:'Yuugata'},{en:'Night',tr:'夜',rom:'Yoru'},{en:'Hour',tr:'時間',rom:'Jikan'},{en:'Week',tr:'週間',rom:'Shuukan'}]},
       '🍜 Food & Drink':{cls:'cat-food',words:[{en:'Water',tr:'水',rom:'Mizu'},{en:'Food',tr:'食べ物',rom:'Tabemono'},{en:'Rice',tr:'ご飯',rom:'Gohan'},{en:'Spicy',tr:'辛い',rom:'Karai'},{en:'Not spicy',tr:'辛くない',rom:'Karakunai'},{en:'Delicious',tr:'おいしい',rom:'Oishii'},{en:'Vegetarian',tr:'ベジタリアン',rom:'Bejiterian'},{en:'Allergy',tr:'アレルギー',rom:'Arerugi'},{en:'Restaurant',tr:'レストラン',rom:'Resutoran'},{en:'Market',tr:'市場',rom:'Ichiba'},{en:'Coffee',tr:'コーヒー',rom:'Koohii'},{en:'Beer',tr:'ビール',rom:'Biiru'},{en:'Chicken',tr:'鶏肉',rom:'Toriniku'},{en:'Pork',tr:'豚肉',rom:'Butaniku'},{en:'Fish',tr:'魚',rom:'Sakana'}]},
@@ -901,48 +620,15 @@ const LANGS = {
       {en:'Where is the nearest hospital?',tr:'一番近い病院はどこですか？',rom:'Ichiban chikai byouin wa doko desu ka?'},{en:'I need a doctor.',tr:'医者が必要です。',rom:'Isha ga hitsuyou desu.'},{en:'How much does this cost?',tr:'これはいくらですか？',rom:'Kore wa ikura desu ka?'},{en:'I would like this, please.',tr:'これをください。',rom:'Kore wo kudasai.'},{en:'Can you lower the price?',tr:'値段を下げてもらえますか？',rom:'Nedan wo sagete moraemasu ka?'},{en:'Where is the bathroom?',tr:'トイレはどこですか？',rom:'Toire wa doko desu ka?'},{en:'Please call the police.',tr:'警察を呼んでください。',rom:'Keisatsu wo yonde kudasai.'},{en:'I am lost.',tr:'迷子になりました。',rom:'Maigo ni narimashita.'},{en:'Please take me to this address.',tr:'この住所に連れて行ってください。',rom:'Kono juusho ni tsurete itte kudasai.'},{en:'I do not eat meat.',tr:'私は肉を食べません。',rom:'Watashi wa niku wo tabemasen.'},{en:'Do you speak English?',tr:'英語を話しますか？',rom:'Eigo wo hanashimasu ka?'},{en:'I don\'t understand.',tr:'わかりません。',rom:'Wakarimasen.'},{en:'Please speak slowly.',tr:'ゆっくり話してください。',rom:'Yukkuri hanashite kudasai.'},{en:'Can you write it down?',tr:'書いてもらえますか？',rom:'Kaite moraemasu ka?'},{en:'I am allergic to peanuts.',tr:'ピーナッツアレルギーがあります。',rom:'Piinattsu arerugi ga arimasu.'},{en:'Where can I exchange money?',tr:'どこで両替できますか？',rom:'Doko de ryougae dekimasu ka?'},{en:'What is the WiFi password?',tr:'WiFiのパスワードは何ですか？',rom:'WiFi no pasuwaado wa nan desu ka?'},{en:'I would like to rent this apartment.',tr:'このアパートを借りたいです。',rom:'Kono apaato wo karitai desu.'},{en:'Is this price negotiable?',tr:'値段の交渉はできますか？',rom:'Nedan no koushou wa dekimasu ka?'},{en:'I need an ambulance.',tr:'救急車が必要です。',rom:'Kyuukyuusha ga hitsuyou desu.'},{en:'Where is the nearest ATM?',tr:'一番近いATMはどこですか？',rom:'Ichiban chikai ATM wa doko desu ka?'},{en:'Can I get a receipt?',tr:'領収書をもらえますか？',rom:'Ryoushuusho wo moraemasu ka?'},{en:'What time does it open?',tr:'何時に開きますか？',rom:'Nanji ni akimasu ka?'},{en:'What time does it close?',tr:'何時に閉まりますか？',rom:'Nanji ni shimarimasu ka?'},{en:'Do you have a menu in English?',tr:'英語のメニューはありますか？',rom:'Eigo no menyu wa arimasu ka?'},{en:'I would like the bill, please.',tr:'お会計をお願いします。',rom:'Okaikei wo onegaishimasu.'},{en:'Is there air conditioning?',tr:'エアコンはありますか？',rom:'Eakon wa arimasu ka?'},{en:'This is an emergency!',tr:'緊急事態です！',rom:'Kinkyuu jitai desu!'},{en:'Call an ambulance!',tr:'救急車を呼んでください！',rom:'Kyuukyuusha wo yonde kudasai!'},{en:'I have a reservation.',tr:'予約があります。',rom:'Yoyaku ga arimasu.'},{en:'Do you accept credit cards?',tr:'クレジットカードは使えますか？',rom:'Kurejitto kaado wa tsukaemasu ka?'},{en:'Where is the train station?',tr:'電車の駅はどこですか？',rom:'Densha no eki wa doko desu ka?'},{en:'I want to go to the airport.',tr:'空港に行きたいです。',rom:'Kuukou ni ikitai desu.'},{en:'How long will it take?',tr:'どのくらい時間がかかりますか？',rom:'Dono kurai jikan ga kakarimasu ka?'},{en:'What is your name?',tr:'お名前は何ですか？',rom:'Onamae wa nan desu ka?'},{en:'My name is...',tr:'私の名前は...です。',rom:'Watashi no namae wa ... desu.'},{en:'Nice to meet you.',tr:'よろしくお願いします。',rom:'Yoroshiku onegaishimasu.'},{en:'I am from America.',tr:'私はアメリカ出身です。',rom:'Watashi wa Amerika shusshin desu.'},{en:'I live here now.',tr:'今はここに住んでいます。',rom:'Ima wa koko ni sunde imasu.'},{en:'Can you help me?',tr:'手伝ってもらえますか？',rom:'Tetsudatte moraemasu ka?'},{en:'I need a translator.',tr:'通訳が必要です。',rom:'Tsuuyaku ga hitsuyou desu.'},{en:'Is it safe here?',tr:'ここは安全ですか？',rom:'Koko wa anzen desu ka?'},{en:'I need help with my visa.',tr:'ビザについて助けが必要です。',rom:'Biza ni tsuite tasuke ga hitsuyou desu.'},{en:'Where is the embassy?',tr:'大使館はどこですか？',rom:'Taishikan wa doko desu ka?'},{en:'I feel sick.',tr:'気分が悪いです。',rom:'Kibun ga warui desu.'},{en:'I have a headache.',tr:'頭が痛いです。',rom:'Atama ga itai desu.'},{en:'Do you have this in another size?',tr:'別のサイズはありますか？',rom:'Betsu no saizu wa arimasu ka?'},{en:'Thank you very much.',tr:'どうもありがとうございます。',rom:'Doumo arigatou gozaimasu.'},{en:'You are very kind.',tr:'ご親切にありがとうございます。',rom:'Goshinsetsu ni arigatou gozaimasu.'},{en:'Excuse me.',tr:'すみません。',rom:'Sumimasen.'}
     ],
     emergency:[{en:'Help me!',tr:'助けてください！',rom:'Tasukete kudasai!'},{en:'Call the police!',tr:'警察を呼んでください！',rom:'Keisatsu wo yonde kudasai!'},{en:'I am having a heart attack.',tr:'心臓発作が起きています。',rom:'Shinzou hossa ga okite imasu.'},{en:'I am lost and need help.',tr:'迷子になって助けが必要です。',rom:'Maigo ni natte tasuke ga hitsuyou desu.'},{en:'Someone stole my bag.',tr:'バッグを盗まれました。',rom:'Baggu wo nusumaremashita.'},{en:'I need an ambulance now.',tr:'今すぐ救急車が必要です。',rom:'Ima sugu kyuukyuusha ga hitsuyou desu.'},{en:'Fire! Get out!',tr:'火事だ！逃げてください！',rom:'Kaji da! Nigete kudasai!'},{en:'I am in danger.',tr:'危険な状況にいます。',rom:'Kiken na joukyou ni imasu.'}]
+    pronunciation: null,  // Batch 1: add pronunciation guide
+    flows: null,          // Batch 2: conversation flows
+    situations: null,     // Batch 2: situational packs
   },
   pt: {
     name:'Portuguese',flag:'🇧🇷',native:'Português',voiceCode:'pt-BR',
-    voiceGender:'female',
     tip:'Portuguese is spoken by 260 million people. Brazilian Portuguese and European Portuguese sound quite different — this guide focuses on Brazilian.',
     cultural:['Brazilians are warm and physical — hugs and cheek kisses are common greetings','Personal space is smaller than in the US','Never refuse food offered at someone\'s home — it\'s impolite','Punctuality is flexible — arriving 15–30 mins late is common for social events','Carnaval is sacred — plan around it','Beach culture is central — swimwear is appropriate at most coastal areas'],
     categories:{
-      '👋 Greetings & Celebrations': {cls:'cat-greetings', words:[
-        {en:'Good morning',tr:'Bom dia',rom:''},{en:'Good afternoon',tr:'Boa tarde',rom:''},
-        {en:'Good evening',tr:'Boa noite',rom:''},{en:'Good night',tr:'Boa noite',rom:''},
-        {en:'Welcome',tr:'Bem-vindo/a',rom:''},{en:'Happy New Year',tr:'Feliz Ano Novo',rom:''},
-        {en:'Happy Birthday',tr:'Feliz aniversário',rom:''},{en:'Merry Christmas',tr:'Feliz Natal',rom:''},
-        {en:'Happy Carnival',tr:'Bom Carnaval',rom:''},{en:'Congratulations',tr:'Parabéns',rom:''},
-      ]},
-      '🧑‍🤝‍🧑 Pronouns': {cls:'cat-pronouns', words:[
-        {en:'I',tr:'Eu',rom:''},{en:'You (informal)',tr:'Você',rom:''},{en:'You (formal)',tr:'O senhor/A senhora',rom:''},
-        {en:'He',tr:'Ele',rom:''},{en:'She',tr:'Ela',rom:''},{en:'We',tr:'Nós/A gente',rom:''},
-        {en:'They',tr:'Eles/Elas',rom:''},{en:'My',tr:'Meu/Minha',rom:''},
-        {en:'This',tr:'Este/Esta',rom:''},{en:'That',tr:'Esse/Essa',rom:''},
-      ]},
-      '❓ Question Words': {cls:'cat-questions', words:[
-        {en:'Who',tr:'Quem',rom:''},{en:'What',tr:'O quê',rom:''},{en:'When',tr:'Quando',rom:''},
-        {en:'Where',tr:'Onde',rom:''},{en:'Why',tr:'Por quê',rom:''},{en:'How',tr:'Como',rom:''},
-        {en:'How much',tr:'Quanto',rom:''},{en:'How many',tr:'Quantos',rom:''},
-        {en:'Which',tr:'Qual',rom:''},{en:'Whose',tr:'De quem',rom:''},
-      ]},
-      '🎩 Titles & Address': {cls:'cat-titles', words:[
-        {en:'Mr.',tr:'Senhor',rom:''},{en:'Mrs.',tr:'Senhora',rom:''},{en:'Miss',tr:'Senhorita',rom:''},
-        {en:'Doctor',tr:'Doutor/Doutora',rom:''},{en:'Professor',tr:'Professor/a',rom:''},
-        {en:'Friend',tr:'Amigo/a',rom:''},{en:'Boss',tr:'Chefe',rom:''},
-        {en:'Sir/Ma\'am',tr:'Senhor/Senhora',rom:''},{en:'Colleague',tr:'Colega',rom:''},
-        {en:'Neighbour',tr:'Vizinho/a',rom:''},
-      ]},
-      '🔢 Numbers 1–20': {cls:'cat-numbers20', words:[
-        {en:'1',tr:'Um/Uma',rom:''},{en:'2',tr:'Dois/Duas',rom:''},{en:'3',tr:'Três',rom:''},
-        {en:'4',tr:'Quatro',rom:''},{en:'5',tr:'Cinco',rom:''},{en:'6',tr:'Seis',rom:''},
-        {en:'7',tr:'Sete',rom:''},{en:'8',tr:'Oito',rom:''},{en:'9',tr:'Nove',rom:''},
-        {en:'10',tr:'Dez',rom:''},{en:'11',tr:'Onze',rom:''},{en:'12',tr:'Doze',rom:''},
-        {en:'13',tr:'Treze',rom:''},{en:'14',tr:'Quatorze',rom:''},{en:'15',tr:'Quinze',rom:''},
-        {en:'16',tr:'Dezesseis',rom:''},{en:'17',tr:'Dezessete',rom:''},{en:'18',tr:'Dezoito',rom:''},
-        {en:'19',tr:'Dezenove',rom:''},{en:'20',tr:'Vinte',rom:''},
-      ]},
       '🚨 Survival':{cls:'cat-survival',words:[{en:'Help',tr:'Socorro',rom:''},{en:'Emergency',tr:'Emergência',rom:''},{en:'Police',tr:'Polícia',rom:''},{en:'Hospital',tr:'Hospital',rom:''},{en:'Doctor',tr:'Médico',rom:''},{en:'Pharmacy',tr:'Farmácia',rom:''},{en:'Ambulance',tr:'Ambulância',rom:''},{en:'Fire',tr:'Incêndio',rom:''},{en:'Danger',tr:'Perigo',rom:''},{en:'Safe',tr:'Seguro',rom:''},{en:'Passport',tr:'Passaporte',rom:''},{en:'Embassy',tr:'Embaixada',rom:''},{en:'Lost',tr:'Perdido/a',rom:''},{en:'Thief',tr:'Ladrão',rom:''},{en:'Accident',tr:'Acidente',rom:''}]},
       '🔢 Numbers & Time':{cls:'cat-numbers',words:[{en:'One',tr:'Um/Uma',rom:''},{en:'Two',tr:'Dois/Duas',rom:''},{en:'Three',tr:'Três',rom:''},{en:'Four',tr:'Quatro',rom:''},{en:'Five',tr:'Cinco',rom:''},{en:'Ten',tr:'Dez',rom:''},{en:'Hundred',tr:'Cem',rom:''},{en:'Today',tr:'Hoje',rom:''},{en:'Tomorrow',tr:'Amanhã',rom:''},{en:'Yesterday',tr:'Ontem',rom:''},{en:'Morning',tr:'Manhã',rom:''},{en:'Evening',tr:'Tarde',rom:''},{en:'Night',tr:'Noite',rom:''},{en:'Hour',tr:'Hora',rom:''},{en:'Week',tr:'Semana',rom:''}]},
       '🍜 Food & Drink':{cls:'cat-food',words:[{en:'Water',tr:'Água',rom:''},{en:'Food',tr:'Comida',rom:''},{en:'Rice',tr:'Arroz',rom:''},{en:'Spicy',tr:'Picante',rom:''},{en:'Not spicy',tr:'Sem pimenta',rom:''},{en:'Delicious',tr:'Delicioso',rom:''},{en:'Vegetarian',tr:'Vegetariano',rom:''},{en:'Allergy',tr:'Alergia',rom:''},{en:'Restaurant',tr:'Restaurante',rom:''},{en:'Market',tr:'Mercado',rom:''},{en:'Coffee',tr:'Café',rom:''},{en:'Beer',tr:'Cerveja',rom:''},{en:'Chicken',tr:'Frango',rom:''},{en:'Pork',tr:'Porco',rom:''},{en:'Fish',tr:'Peixe',rom:''}]},
@@ -956,48 +642,15 @@ const LANGS = {
       {en:'Where is the nearest hospital?',tr:'Onde fica o hospital mais próximo?',rom:''},{en:'I need a doctor.',tr:'Preciso de um médico.',rom:''},{en:'How much does this cost?',tr:'Quanto custa isso?',rom:''},{en:'I would like this, please.',tr:'Quero isso, por favor.',rom:''},{en:'Can you lower the price?',tr:'Pode baixar o preço?',rom:''},{en:'Where is the bathroom?',tr:'Onde fica o banheiro?',rom:''},{en:'Please call the police.',tr:'Por favor, chame a polícia.',rom:''},{en:'I am lost.',tr:'Estou perdido/a.',rom:''},{en:'Please take me to this address.',tr:'Por favor, me leve a esse endereço.',rom:''},{en:'I do not eat meat.',tr:'Não como carne.',rom:''},{en:'Do you speak English?',tr:'Você fala inglês?',rom:''},{en:'I don\'t understand.',tr:'Não entendo.',rom:''},{en:'Please speak slowly.',tr:'Por favor, fale devagar.',rom:''},{en:'Can you write it down?',tr:'Pode escrever?',rom:''},{en:'I am allergic to peanuts.',tr:'Sou alérgico/a a amendoim.',rom:''},{en:'Where can I exchange money?',tr:'Onde posso trocar dinheiro?',rom:''},{en:'What is the WiFi password?',tr:'Qual é a senha do WiFi?',rom:''},{en:'I would like to rent this apartment.',tr:'Gostaria de alugar este apartamento.',rom:''},{en:'Is this price negotiable?',tr:'O preço é negociável?',rom:''},{en:'I need an ambulance.',tr:'Preciso de uma ambulância.',rom:''},{en:'Where is the nearest ATM?',tr:'Onde fica o caixa eletrônico mais próximo?',rom:''},{en:'Can I get a receipt?',tr:'Posso ter um recibo?',rom:''},{en:'What time does it open?',tr:'A que horas abre?',rom:''},{en:'What time does it close?',tr:'A que horas fecha?',rom:''},{en:'Do you have a menu in English?',tr:'Tem cardápio em inglês?',rom:''},{en:'I would like the bill, please.',tr:'A conta, por favor.',rom:''},{en:'Is there air conditioning?',tr:'Tem ar condicionado?',rom:''},{en:'This is an emergency!',tr:'É uma emergência!',rom:''},{en:'Call an ambulance!',tr:'Chame uma ambulância!',rom:''},{en:'I have a reservation.',tr:'Tenho uma reserva.',rom:''},{en:'Do you accept credit cards?',tr:'Aceitam cartão de crédito?',rom:''},{en:'Where is the train station?',tr:'Onde fica a estação de trem?',rom:''},{en:'I want to go to the airport.',tr:'Quero ir para o aeroporto.',rom:''},{en:'How long will it take?',tr:'Quanto tempo vai demorar?',rom:''},{en:'What is your name?',tr:'Qual é o seu nome?',rom:''},{en:'My name is...',tr:'Meu nome é...',rom:''},{en:'Nice to meet you.',tr:'Muito prazer.',rom:''},{en:'I am from America.',tr:'Sou dos Estados Unidos.',rom:''},{en:'I live here now.',tr:'Moro aqui agora.',rom:''},{en:'Can you help me?',tr:'Pode me ajudar?',rom:''},{en:'I need a translator.',tr:'Preciso de um tradutor.',rom:''},{en:'Is it safe here?',tr:'É seguro aqui?',rom:''},{en:'I need help with my visa.',tr:'Preciso de ajuda com meu visto.',rom:''},{en:'Where is the embassy?',tr:'Onde fica a embaixada?',rom:''},{en:'I feel sick.',tr:'Estou me sentindo mal.',rom:''},{en:'I have a headache.',tr:'Estou com dor de cabeça.',rom:''},{en:'Do you have this in another size?',tr:'Tem em outro tamanho?',rom:''},{en:'Thank you very much.',tr:'Muito obrigado/a.',rom:''},{en:'You are very kind.',tr:'Você é muito gentil.',rom:''},{en:'Excuse me.',tr:'Com licença.',rom:''}
     ],
     emergency:[{en:'Help me!',tr:'Me ajuda!',rom:''},{en:'Call the police!',tr:'Chame a polícia!',rom:''},{en:'I am having a heart attack.',tr:'Estou tendo um ataque cardíaco.',rom:''},{en:'I am lost and need help.',tr:'Estou perdido/a e preciso de ajuda.',rom:''},{en:'Someone stole my bag.',tr:'Alguém roubou minha bolsa.',rom:''},{en:'I need an ambulance now.',tr:'Preciso de uma ambulância agora.',rom:''},{en:'Fire! Get out!',tr:'Fogo! Saiam!',rom:''},{en:'I am in danger.',tr:'Estou em perigo.',rom:''}]
+    pronunciation: null,  // Batch 1: add pronunciation guide
+    flows: null,          // Batch 2: conversation flows
+    situations: null,     // Batch 2: situational packs
   },
   zh: {
     name:'Mandarin',flag:'🇨🇳',native:'普通话',voiceCode:'zh-CN',
-    voiceGender:'female',
     tip:'Mandarin is tonal (4 tones + neutral). The same syllable can mean completely different things. Pinyin romanization helps you get started.',
     cultural:['Greet with a nod or handshake — hugs are uncommon with strangers','Gift-giving is important — avoid clocks (associated with death) and green hats (infidelity)','Red is lucky — great for gifts and celebrations','Slurping noodles and soup is perfectly acceptable and shows enjoyment','Business cards are presented and received with both hands','Bargaining is expected in markets, but not in malls'],
     categories:{
-      '👋 Greetings & Celebrations': {cls:'cat-greetings', words:[
-        {en:'Good morning',tr:'早上好',rom:'Zǎoshang hǎo'},{en:'Good afternoon',tr:'下午好',rom:'Xiàwǔ hǎo'},
-        {en:'Good evening',tr:'晚上好',rom:'Wǎnshang hǎo'},{en:'Good night',tr:'晚安',rom:'Wǎn\'ān'},
-        {en:'Welcome',tr:'欢迎',rom:'Huānyíng'},{en:'Happy New Year (Lunar)',tr:'新年快乐',rom:'Xīnnián kuàilè'},
-        {en:'Happy Birthday',tr:'生日快乐',rom:'Shēngrì kuàilè'},{en:'Merry Christmas',tr:'圣诞快乐',rom:'Shèngdàn kuàilè'},
-        {en:'Happy Mid-Autumn',tr:'中秋节快乐',rom:'Zhōngqiūjié kuàilè'},{en:'Congratulations',tr:'恭喜',rom:'Gōngxǐ'},
-      ]},
-      '🧑‍🤝‍🧑 Pronouns': {cls:'cat-pronouns', words:[
-        {en:'I',tr:'我',rom:'Wǒ'},{en:'You',tr:'你',rom:'Nǐ'},{en:'You (formal)',tr:'您',rom:'Nín'},
-        {en:'He',tr:'他',rom:'Tā'},{en:'She',tr:'她',rom:'Tā'},{en:'It',tr:'它',rom:'Tā'},
-        {en:'We',tr:'我们',rom:'Wǒmen'},{en:'They',tr:'他们',rom:'Tāmen'},
-        {en:'My',tr:'我的',rom:'Wǒ de'},{en:'Your',tr:'你的',rom:'Nǐ de'},
-      ]},
-      '❓ Question Words': {cls:'cat-questions', words:[
-        {en:'Who',tr:'谁',rom:'Shéi'},{en:'What',tr:'什么',rom:'Shénme'},{en:'When',tr:'什么时候',rom:'Shénme shíhou'},
-        {en:'Where',tr:'哪里',rom:'Nǎlǐ'},{en:'Why',tr:'为什么',rom:'Wèishénme'},{en:'How',tr:'怎么',rom:'Zěnme'},
-        {en:'How much',tr:'多少钱',rom:'Duōshǎo qián'},{en:'How many',tr:'多少',rom:'Duōshǎo'},
-        {en:'Which',tr:'哪个',rom:'Nǎge'},{en:'Whose',tr:'谁的',rom:'Shéi de'},
-      ]},
-      '🎩 Titles & Address': {cls:'cat-titles', words:[
-        {en:'Mr.',tr:'先生',rom:'Xiānsheng'},{en:'Mrs.',tr:'太太',rom:'Tàitai'},{en:'Ms.',tr:'女士',rom:'Nǚshì'},
-        {en:'Doctor',tr:'医生',rom:'Yīshēng'},{en:'Teacher',tr:'老师',rom:'Lǎoshī'},
-        {en:'Boss',tr:'老板',rom:'Lǎobǎn'},{en:'Friend',tr:'朋友',rom:'Péngyǒu'},
-        {en:'Elder (respected)',tr:'长辈',rom:'Zhǎngbèi'},{en:'Colleague',tr:'同事',rom:'Tóngshì'},
-        {en:'Sir/Ma\'am',tr:'您',rom:'Nín'},
-      ]},
-      '🔢 Numbers 1–20': {cls:'cat-numbers20', words:[
-        {en:'1',tr:'一',rom:'Yī'},{en:'2',tr:'二',rom:'Èr'},{en:'3',tr:'三',rom:'Sān'},
-        {en:'4',tr:'四',rom:'Sì'},{en:'5',tr:'五',rom:'Wǔ'},{en:'6',tr:'六',rom:'Liù'},
-        {en:'7',tr:'七',rom:'Qī'},{en:'8',tr:'八',rom:'Bā'},{en:'9',tr:'九',rom:'Jiǔ'},
-        {en:'10',tr:'十',rom:'Shí'},{en:'11',tr:'十一',rom:'Shíyī'},{en:'12',tr:'十二',rom:'Shíèr'},
-        {en:'13',tr:'十三',rom:'Shísān'},{en:'14',tr:'十四',rom:'Shísì'},{en:'15',tr:'十五',rom:'Shíwǔ'},
-        {en:'16',tr:'十六',rom:'Shíliù'},{en:'17',tr:'十七',rom:'Shíqī'},{en:'18',tr:'十八',rom:'Shíbā'},
-        {en:'19',tr:'十九',rom:'Shíjiǔ'},{en:'20',tr:'二十',rom:'Èrshí'},
-      ]},
       '🚨 Survival':{cls:'cat-survival',words:[{en:'Help',tr:'救命',rom:'Jiùmìng'},{en:'Emergency',tr:'紧急情况',rom:'Jǐnjí qíngkuàng'},{en:'Police',tr:'警察',rom:'Jǐngchá'},{en:'Hospital',tr:'医院',rom:'Yīyuàn'},{en:'Doctor',tr:'医生',rom:'Yīshēng'},{en:'Pharmacy',tr:'药店',rom:'Yàodiàn'},{en:'Ambulance',tr:'救护车',rom:'Jiùhùchē'},{en:'Fire',tr:'火灾',rom:'Huǒzāi'},{en:'Danger',tr:'危险',rom:'Wēixiǎn'},{en:'Safe',tr:'安全',rom:'Ānquán'},{en:'Passport',tr:'护照',rom:'Hùzhào'},{en:'Embassy',tr:'大使馆',rom:'Dàshǐguǎn'},{en:'Lost',tr:'迷路了',rom:'Mí lù le'},{en:'Thief',tr:'小偷',rom:'Xiǎotōu'},{en:'Accident',tr:'事故',rom:'Shìgù'}]},
       '🔢 Numbers & Time':{cls:'cat-numbers',words:[{en:'One',tr:'一',rom:'Yī'},{en:'Two',tr:'二',rom:'Èr'},{en:'Three',tr:'三',rom:'Sān'},{en:'Four',tr:'四',rom:'Sì'},{en:'Five',tr:'五',rom:'Wǔ'},{en:'Ten',tr:'十',rom:'Shí'},{en:'Hundred',tr:'百',rom:'Bǎi'},{en:'Today',tr:'今天',rom:'Jīntiān'},{en:'Tomorrow',tr:'明天',rom:'Míngtiān'},{en:'Yesterday',tr:'昨天',rom:'Zuótiān'},{en:'Morning',tr:'早上',rom:'Zǎoshang'},{en:'Evening',tr:'晚上',rom:'Wǎnshang'},{en:'Night',tr:'夜晚',rom:'Yèwǎn'},{en:'Hour',tr:'小时',rom:'Xiǎoshí'},{en:'Week',tr:'星期',rom:'Xīngqī'}]},
       '🍜 Food & Drink':{cls:'cat-food',words:[{en:'Water',tr:'水',rom:'Shuǐ'},{en:'Food',tr:'食物',rom:'Shíwù'},{en:'Rice',tr:'米饭',rom:'Mǐfàn'},{en:'Spicy',tr:'辣',rom:'Là'},{en:'Not spicy',tr:'不辣',rom:'Bù là'},{en:'Delicious',tr:'好吃',rom:'Hǎochī'},{en:'Vegetarian',tr:'素食',rom:'Sùshí'},{en:'Allergy',tr:'过敏',rom:'Guòmǐn'},{en:'Restaurant',tr:'餐厅',rom:'Cāntīng'},{en:'Market',tr:'市场',rom:'Shìchǎng'},{en:'Coffee',tr:'咖啡',rom:'Kāfēi'},{en:'Beer',tr:'啤酒',rom:'Píjiǔ'},{en:'Chicken',tr:'鸡肉',rom:'Jīròu'},{en:'Pork',tr:'猪肉',rom:'Zhūròu'},{en:'Fish',tr:'鱼',rom:'Yú'}]},
@@ -1011,5 +664,8 @@ const LANGS = {
       {en:'Where is the nearest hospital?',tr:'最近的医院在哪里？',rom:'Zuìjìn de yīyuàn zài nǎlǐ?'},{en:'I need a doctor.',tr:'我需要看医生。',rom:'Wǒ xūyào kàn yīshēng.'},{en:'How much does this cost?',tr:'这个多少钱？',rom:'Zhège duōshǎo qián?'},{en:'I would like this, please.',tr:'我要这个。',rom:'Wǒ yào zhège.'},{en:'Can you lower the price?',tr:'能便宜一点吗？',rom:'Néng piányí yīdiǎn ma?'},{en:'Where is the bathroom?',tr:'卫生间在哪里？',rom:'Wèishēngjiān zài nǎlǐ?'},{en:'Please call the police.',tr:'请帮我叫警察。',rom:'Qǐng bāng wǒ jiào jǐngchá.'},{en:'I am lost.',tr:'我迷路了。',rom:'Wǒ mí lù le.'},{en:'Please take me to this address.',tr:'请带我去这个地址。',rom:'Qǐng dài wǒ qù zhège dìzhǐ.'},{en:'I do not eat meat.',tr:'我不吃肉。',rom:'Wǒ bù chī ròu.'},{en:'Do you speak English?',tr:'你会说英语吗？',rom:'Nǐ huì shuō Yīngyǔ ma?'},{en:'I don\'t understand.',tr:'我不明白。',rom:'Wǒ bù míngbái.'},{en:'Please speak slowly.',tr:'请说慢一点。',rom:'Qǐng shuō màn yīdiǎn.'},{en:'Can you write it down?',tr:'能写下来吗？',rom:'Néng xiě xiàlái ma?'},{en:'I am allergic to peanuts.',tr:'我对花生过敏。',rom:'Wǒ duì huāshēng guòmǐn.'},{en:'Where can I exchange money?',tr:'在哪里可以换钱？',rom:'Zài nǎlǐ kěyǐ huàn qián?'},{en:'What is the WiFi password?',tr:'WiFi密码是什么？',rom:'WiFi mìmǎ shì shénme?'},{en:'I would like to rent this apartment.',tr:'我想租这套公寓。',rom:'Wǒ xiǎng zū zhè tào gōngyù.'},{en:'Is this price negotiable?',tr:'价格可以商量吗？',rom:'Jiàgé kěyǐ shāngliang ma?'},{en:'I need an ambulance.',tr:'我需要救护车。',rom:'Wǒ xūyào jiùhùchē.'},{en:'Where is the nearest ATM?',tr:'最近的ATM在哪里？',rom:'Zuìjìn de ATM zài nǎlǐ?'},{en:'Can I get a receipt?',tr:'可以给我收据吗？',rom:'Kěyǐ gěi wǒ shōujù ma?'},{en:'What time does it open?',tr:'几点开门？',rom:'Jǐ diǎn kāimén?'},{en:'What time does it close?',tr:'几点关门？',rom:'Jǐ diǎn guānmén?'},{en:'Do you have a menu in English?',tr:'有英文菜单吗？',rom:'Yǒu Yīngwén càidān ma?'},{en:'I would like the bill, please.',tr:'请给我账单。',rom:'Qǐng gěi wǒ zhàngdān.'},{en:'Is there air conditioning?',tr:'有空调吗？',rom:'Yǒu kōngtiáo ma?'},{en:'This is an emergency!',tr:'这是紧急情况！',rom:'Zhè shì jǐnjí qíngkuàng!'},{en:'Call an ambulance!',tr:'快叫救护车！',rom:'Kuài jiào jiùhùchē!'},{en:'I have a reservation.',tr:'我有预订。',rom:'Wǒ yǒu yùdìng.'},{en:'Do you accept credit cards?',tr:'可以刷信用卡吗？',rom:'Kěyǐ shuā xìnyòngkǎ ma?'},{en:'Where is the train station?',tr:'火车站在哪里？',rom:'Huǒchēzhàn zài nǎlǐ?'},{en:'I want to go to the airport.',tr:'我想去机场。',rom:'Wǒ xiǎng qù jīchǎng.'},{en:'How long will it take?',tr:'需要多长时间？',rom:'Xūyào duō cháng shíjiān?'},{en:'What is your name?',tr:'你叫什么名字？',rom:'Nǐ jiào shénme míngzì?'},{en:'My name is...',tr:'我叫...',rom:'Wǒ jiào...'},{en:'Nice to meet you.',tr:'很高兴认识你。',rom:'Hěn gāoxìng rènshi nǐ.'},{en:'I am from America.',tr:'我来自美国。',rom:'Wǒ láizì Měiguó.'},{en:'I live here now.',tr:'我现在住在这里。',rom:'Wǒ xiànzài zhù zài zhèlǐ.'},{en:'Can you help me?',tr:'你能帮我吗？',rom:'Nǐ néng bāng wǒ ma?'},{en:'I need a translator.',tr:'我需要翻译。',rom:'Wǒ xūyào fānyì.'},{en:'Is it safe here?',tr:'这里安全吗？',rom:'Zhèlǐ ānquán ma?'},{en:'I need help with my visa.',tr:'我需要签证方面的帮助。',rom:'Wǒ xūyào qiānzhèng fāngmiàn de bāngzhù.'},{en:'Where is the embassy?',tr:'大使馆在哪里？',rom:'Dàshǐguǎn zài nǎlǐ?'},{en:'I feel sick.',tr:'我感觉不舒服。',rom:'Wǒ gǎnjué bù shūfú.'},{en:'I have a headache.',tr:'我头疼。',rom:'Wǒ tóuténg.'},{en:'Do you have this in another size?',tr:'有其他尺寸吗？',rom:'Yǒu qítā chǐcùn ma?'},{en:'Thank you very much.',tr:'非常感谢。',rom:'Fēicháng gǎnxiè.'},{en:'You are very kind.',tr:'您太好了。',rom:'Nín tài hǎo le.'},{en:'Excuse me.',tr:'打扰一下。',rom:'Dǎrǎo yīxià.'}
     ],
     emergency:[{en:'Help me!',tr:'救命！',rom:'Jiùmìng!'},{en:'Call the police!',tr:'快叫警察！',rom:'Kuài jiào jǐngchá!'},{en:'I am having a heart attack.',tr:'我心脏病发作了。',rom:'Wǒ xīnzàngbìng fāzuò le.'},{en:'I am lost and need help.',tr:'我迷路了，需要帮助。',rom:'Wǒ mí lù le, xūyào bāngzhù.'},{en:'Someone stole my bag.',tr:'有人偷了我的包。',rom:'Yǒurén tōu le wǒ de bāo.'},{en:'I need an ambulance now.',tr:'我现在需要救护车。',rom:'Wǒ xiànzài xūyào jiùhùchē.'},{en:'Fire! Get out!',tr:'着火了！快跑！',rom:'Zháohuǒ le! Kuài pǎo!'},{en:'I am in danger.',tr:'我有危险。',rom:'Wǒ yǒu wēixiǎn.'}]
+    pronunciation: null,  // Batch 1: add pronunciation guide
+    flows: null,          // Batch 2: conversation flows
+    situations: null,     // Batch 2: situational packs
   }
 };
