@@ -1,1 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expat Language Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
+<header>
+  <h1>Expat <span>Language</span> Guide</h1>
+  <p>200 words · 50 sentences · 10 languages — your passport to anywhere</p>
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleDrawer()" aria-label="Open language menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- DRAWER OVERLAY -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- DRAWER -->
+<nav class="drawer" id="drawer">
+  <div class="drawer-header">
+    <h3>🌏 Languages</h3>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="drawer-label">Choose a Language</div>
+  <button class="drawer-lang-btn active" onclick="switchLang('th');closeDrawer()"><span class="flag">🇹🇭</span> Thai</button>
+  <button class="drawer-lang-btn" onclick="switchLang('fr');closeDrawer()"><span class="flag">🇫🇷</span> French</button>
+  <button class="drawer-lang-btn" onclick="switchLang('es');closeDrawer()"><span class="flag">🇪🇸</span> Spanish</button>
+  <button class="drawer-lang-btn" onclick="switchLang('nl');closeDrawer()"><span class="flag">🇳🇱</span> Dutch</button>
+  <button class="drawer-lang-btn" onclick="switchLang('ko');closeDrawer()"><span class="flag">🇰🇷</span> Korean</button>
+  <button class="drawer-lang-btn" onclick="switchLang('vi');closeDrawer()"><span class="flag">🇻🇳</span> Vietnamese</button>
+  <button class="drawer-lang-btn" onclick="switchLang('id');closeDrawer()"><span class="flag">🇮🇩</span> Indonesian</button>
+  <button class="drawer-lang-btn" onclick="switchLang('ja');closeDrawer()"><span class="flag">🇯🇵</span> Japanese</button>
+  <button class="drawer-lang-btn" onclick="switchLang('pt');closeDrawer()"><span class="flag">🇧🇷</span> Portuguese</button>
+  <button class="drawer-lang-btn" onclick="switchLang('zh');closeDrawer()"><span class="flag">🇨🇳</span> Mandarin</button>
+</nav>
+
+<!-- GOOGLE TRANSLATE -->
+<div class="translate-bar">
+  <label>🌐 Translate Page:</label>
+  <div id="google_translate_element"></div>
+</div>
+
+<!-- LANGUAGE NAV (desktop tab bar) -->
+<nav class="lang-nav" id="langNav">
+  <button class="lang-btn active" onclick="switchLang('th')">🇹🇭 Thai</button>
+  <button class="lang-btn" onclick="switchLang('fr')">🇫🇷 French</button>
+  <button class="lang-btn" onclick="switchLang('es')">🇪🇸 Spanish</button>
+  <button class="lang-btn" onclick="switchLang('nl')">🇳🇱 Dutch</button>
+  <button class="lang-btn" onclick="switchLang('ko')">🇰🇷 Korean</button>
+  <button class="lang-btn" onclick="switchLang('vi')">🇻🇳 Vietnamese</button>
+  <button class="lang-btn" onclick="switchLang('id')">🇮🇩 Indonesian</button>
+  <button class="lang-btn" onclick="switchLang('ja')">🇯🇵 Japanese</button>
+  <button class="lang-btn" onclick="switchLang('pt')">🇧🇷 Portuguese</button>
+  <button class="lang-btn" onclick="switchLang('zh')">🇨🇳 Mandarin</button>
+</nav>
+
+<!-- MAIN CONTENT (rendered by app.js) -->
+<main id="mainContent"></main>
+
+<footer>Built for the <span>wandering soul</span> — free forever, hosted on GitHub Pages.</footer>
+
+<!-- SCRIPTS: order matters — data first, then app logic -->
+<script src="data.js"></script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
